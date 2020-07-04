@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.17)
 project(game)
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_MODULE_PATH "./CMake/")
-set(CMAKE_CURRENT_BINARY_DIR "./bin/")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
+set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_SOURCE_DIR}/bin/")
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 set(CMAKE_INSTALL_RPATH "./")
 
-add_executable(${PROJECT_NAME} "./src/main.cpp")
+add_executable(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/src/main.cpp")
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(PLATFORM 64)
