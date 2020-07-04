@@ -2,8 +2,11 @@ cmake_minimum_required(VERSION 3.17)
 project(game)
 set(CMAKE_CXX_STANDARD 17)
 
-list(APPEND CMAKE_MODULE_PATH "./CMake/")
+set(CMAKE_MODULE_PATH "./CMake/")
 set(CMAKE_CURRENT_BINARY_DIR "./bin/")
+
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH "./")
 
 add_executable(${PROJECT_NAME} "./src/main.cpp")
 
@@ -19,8 +22,6 @@ target_link_libraries(${PROJECT_NAME} ${BLT_LIBRARIES})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	file(COPY ${BLT_DLL} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-# *пытаюсь прицепить путь библиотечки относительно исполняемого файла (в линухе (не получается))*
-#else()
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+else()
 	file(COPY ${BLT_LIBRARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()

@@ -1,12 +1,10 @@
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(LIB_PATHS "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/OSX/")
+	set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/OSX/")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	set(LIB_PATHS "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/Windows${PLATFORM}/")
+	set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/Windows${PLATFORM}/")
 else()
-	set(LIB_PATHS "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/Linux${PLATFORM}/")
+	set(LIB_PATH "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/Linux${PLATFORM}/")
 endif()
-
-find_path(BLT_INCLUDE_DIR BearLibTerminal.h PATHS "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/include/")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	if(MSVC)
@@ -14,10 +12,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	else()
 		set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
 	endif()
-	find_library(BLT_LIBRARY NAME BearLibTerminal PATHS ${LIB_PATHS})
+	find_library(BLT_LIBRARY NAME BearLibTerminal PATHS ${LIB_PATH})
 else()
-	find_library(BLT_LIBRARY NAME BearLibTerminal PATHS ${LIB_PATHS})
+	find_library(BLT_LIBRARY NAME BearLibTerminal PATHS ${LIB_PATH})
 endif()
+
+find_path(BLT_INCLUDE_DIR BearLibTerminal.h PATHS "${CMAKE_SOURCE_DIR}/lib/BearLibTerminal/include/")
 
 set(BLT_DEFINITIONS "")
 
@@ -28,4 +28,4 @@ mark_as_advanced(BLT_LIBRARY BLT_INCLUDE_DIR)
 
 set(BLT_INCLUDE_DIRS ${BLT_INCLUDE_DIR})
 set(BLT_LIBRARIES ${BLT_LIBRARY})
-set(BLT_DLL "${LIB_PATHS}/BearLibTerminal.dll")
+set(BLT_DLL "${LIB_PATH}/BearLibTerminal.dll")
