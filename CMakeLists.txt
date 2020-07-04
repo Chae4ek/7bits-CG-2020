@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-project(game)
 set(CMAKE_CXX_STANDARD 17)
+project(game LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_SOURCE_DIR}/bin/")
