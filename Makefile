@@ -5,3 +5,5 @@ linux:
 
 win:
 	rd /s /q build & mkdir build && cd build && cmake ..
+
+mac: linux
