@@ -7,7 +7,7 @@
 
 1. g++ (MinGW-w64 / GNU / Clang)
 2. make (mingw32-make)
-3. cmake
+3. cmake (3.17+)
 
 # Компиляция
 
