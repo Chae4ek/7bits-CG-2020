@@ -1,9 +1,9 @@
 all:
 
 linux:
-	rm -rf build && mkdir build && cd build && cmake .. && make && mv game ../bin && cd ../bin/ && ./game
+	rm -rf build && rm -rf bin && mkdir build && cd build && cmake .. && make && mv game ../bin && cd ../bin && ./game
 
 win:
-	rd /s /q build & mkdir build && cd build && cmake ..
+	rd /s /q build & rd /s /q bin & mkdir build && cd build && cmake ..
 
 mac: linux
