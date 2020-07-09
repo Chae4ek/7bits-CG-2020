@@ -5,10 +5,9 @@
 
 # Зависимости
 
-1. g++
-2. make
+1. g++ (MinGW-w64 / GNU / Clang)
+2. make (mingw32-make)
 3. cmake
-4. Visual Studio (для Windows)
 
 # Компиляция
 
@@ -21,9 +20,8 @@
 ## Windows
 
 1. Открыть консоль в корне проекта
-2. Выполнить команду `make win`
-3. Собрать проект в папке *./build/* в Visual Studio
-4. Переместить все файлы из *./bin/* в папку к *game.exe*
+2. Выполнить команду `mingw32-make win`
+3. Игра *game.exe* скомпилирована в папку *./bin/*
 
 ## Mac OS
 
