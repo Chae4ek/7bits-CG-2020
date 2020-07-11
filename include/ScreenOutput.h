@@ -8,9 +8,9 @@
 class Screen
 {
 private:
-    Player *player;
+	Player *player;
 public:
-    Screen(Player&);
-    
-    void Output();
+	Screen(Player&);
+	
+	void Output();
 };

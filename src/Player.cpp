@@ -2,8 +2,8 @@
 
 Player::Player()
 {
-    pos_x = 0;
-    pos_y = 0;
+	pos_x = 0;
+	pos_y = 0;
 }
 
 int Player::GetPosX() { return pos_x; }

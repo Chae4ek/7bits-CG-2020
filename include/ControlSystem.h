@@ -11,9 +11,9 @@
 class Controls
 {
 private:
-    Player *player;
+	Player *player;
 public:
-    Controls(Player&);
-    
-    void Check(int);
+	Controls(Player&);
+	
+	void Check(int);
 };
