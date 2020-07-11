@@ -2,8 +2,8 @@
 
 #include "Player.h"
 
-#define PLAYER '@'
-#define WALL '#'
+#define SPRITE_PLAYER '@'
+#define SPRITE_WALL '#'
 
 class Screen
 {
