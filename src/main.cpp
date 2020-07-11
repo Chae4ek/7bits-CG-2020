@@ -1,12 +1,12 @@
 #include <BearLibTerminal.h>
 #include "Player.h"
-#include "Control.h"
+#include "ControlSystem.h"
 #include "ScreenOutput.h"
 
 int main()
 {
 	Player player;
-	Control control(player);
+	Controls controls(player);
 	Screen screen(player);
 	
 	terminal_open();
@@ -19,7 +19,7 @@ int main()
 		{
 			int key = terminal_read();
 			if (key == TK_CLOSE) break;
-			control.Check(key);
+			controls.Check(key);
 		}
 		
 		screen.Output();

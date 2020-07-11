@@ -8,12 +8,12 @@
 #define KEY_UP TK_UP
 #define KEY_DOWN TK_DOWN
 
-class Control
+class Controls
 {
 private:
     Player *player;
 public:
-    Control(Player&);
+    Controls(Player&);
     
     void Check(int);
 };
