@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include "GenerateMap.h"
 
-Map::Map(long long seed) : seed(seed) {}
+Map::Map(unsigned int seed) : seed(seed) {}
 
-constexpr double Lerp(double, double, double);
+constexpr unsigned int Map::GetSeed() { return seed; }
 
 double Map::PerlinNoise(double x, double y)
 {
@@ -12,41 +12,40 @@ double Map::PerlinNoise(double x, double y)
 	int x1 = x0 + 1;
 	int y1 = y0 + 1;
 	
-	double tx = x - static_cast<double>(x0);
-	double ty = y - static_cast<double>(y0);
+	double tx = x - x0;
+	double d1, d2, lerp_x_top, lerp_x_bottom;
 	
-	double d0, d1, i0, i1;
+	d1 = DotGradient(x0, y0, x, y);
+	d2 = DotGradient(x1, y0, x, y);
+	lerp_x_top = Lerp(d1, d2, tx);
 	
-	d0 = DotGrad(x0, y0, x, y);
-	d1 = DotGrad(x1, y0, x, y);
-	i0 = Lerp(d0, d1, tx);
+	d1 = DotGradient(x0, y1, x, y);
+	d2 = DotGradient(x1, y1, x, y);
+	lerp_x_bottom = Lerp(d1, d2, tx);
 	
-	d0 = DotGrad(x0, y1, x, y);
-	d1 = DotGrad(x1, y1, x, y);
-	i1 = Lerp(d0, d1, tx);
-	
-	double noise = Lerp(i0, i1, ty);
-	if (noise < 0) noise *= -1;
-	return noise;
+	double lerp_xy = Lerp(lerp_x_top, lerp_x_bottom, y - y0);
+	if (lerp_xy < 0) lerp_xy *= -1;
+	return lerp_xy;
 }
-double Map::DotGrad(int rand_x, int rand_y, double x, double y)
+double Map::DotGradient(int rand_x, int rand_y, double x, double y)
 {
 	srand(seed);
 	srand(rand_x + rand());
 	srand(rand_y + rand());
+	
 	int r = rand() % 4;
-	double r1, r2;
-	if (r == 0) r1 = 0, r2 = 1;
-	else if (r == 1) r1 = 0, r2 = -1;
-	else if (r == 2) r1 = 1, r2 = 0;
-	else r1 = -1, r2 = 0;
+	x -= rand_x;
+	y -= rand_y;
 	
-	x -= static_cast<double>(rand_x);
-	y -= static_cast<double>(rand_y);
+	if (r == 0) rand_x = 0, rand_y = 1;
+	else if (r == 1) rand_x = 0, rand_y = -1;
+	else if (r == 2) rand_x = 1, rand_y = 0;
+	else rand_x = -1, rand_y = 0;
 	
-	return x * r1 + y * r2;
+	return x * rand_x + y * rand_y;
 }
-constexpr double Lerp(double a, double b, double t)
+constexpr double Map::Lerp(double a, double b, double t)
 {
+	t = t * t * t * (t * (t * 6 - 15) + 10);
 	return a + (b - a) * t;
 }

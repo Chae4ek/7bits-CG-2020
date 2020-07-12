@@ -3,10 +3,14 @@
 class Map
 {
 private:
-	const long long seed;
+	const unsigned int seed;
 public:
-	Map(long long seed);
+	Map(unsigned int seed);
 	
+	constexpr unsigned int GetSeed();
+	
+	// Range of [0, 1]
 	double PerlinNoise(double x, double y);
-	double DotGrad(int, int, double, double);
+	double DotGradient(int, int, double, double);
+	constexpr double Lerp(double, double, double);
 };
