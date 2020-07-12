@@ -1,10 +1,18 @@
-#include <stdlib.h>
 #include "GenerateMap.h"
+#include "Advanced.h"
 
 Map::Map(unsigned int seed) : seed(seed) {}
 
-constexpr unsigned int Map::GetSeed() { return seed; }
+unsigned int Map::GetSeed() { return seed; }
 
+bool Map::isWall(int x, int y)
+{
+	double noise = PerlinNoise(x / smooth, y / smooth);
+	SSrand(seed, x, y);
+	if ((noise > threshold + sharp || Random() % 2) && ((noise > threshold - sharp && Random() % 2) || noise > threshold))
+		return true;
+	return false;
+}
 double Map::PerlinNoise(double x, double y)
 {
 	int x0 = static_cast<int>(x);
@@ -29,11 +37,9 @@ double Map::PerlinNoise(double x, double y)
 }
 double Map::DotGradient(int rand_x, int rand_y, double x, double y)
 {
-	srand(seed);
-	srand(rand_x + rand());
-	srand(rand_y + rand());
+	SSrand(seed, rand_x, rand_y);
 	
-	int r = rand() % 4;
+	int r = Random() % 4;
 	x -= rand_x;
 	y -= rand_y;
 	
