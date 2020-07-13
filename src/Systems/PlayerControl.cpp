@@ -1,19 +1,21 @@
 #include "ECS/Systems.h"
 
-PlayerControl::PlayerControl(Position *player) : player(player) {}
+PlayerControl::PlayerControl(Entity &player) :
+	player_pos(player.Get<Position>()),
+	player_move(player.Get<Movement>()) {}
 
 void PlayerControl::Update(int key)
 {
-	if (key == KEY_LEFT) Left();
-	if (key == KEY_RIGHT) Right();
-	if (key == KEY_UP) Up();
-	if (key == KEY_DOWN) Down();
+	if (key == player_move->KEY_LEFT) Left();
+	if (key == player_move->KEY_RIGHT) Right();
+	if (key == player_move->KEY_UP) Up();
+	if (key == player_move->KEY_DOWN) Down();
 }
 
-int PlayerControl::GetPosX() { return player->pos_x; }
-int PlayerControl::GetPosY() { return player->pos_y; }
+int PlayerControl::GetPosX() { return player_pos->pos_x; }
+int PlayerControl::GetPosY() { return player_pos->pos_y; }
 
-void PlayerControl::Left() { --player->pos_x; }
-void PlayerControl::Right() { ++player->pos_x; }
-void PlayerControl::Up() { --player->pos_y; }
-void PlayerControl::Down() { ++player->pos_y; }
+void PlayerControl::Left() { --player_pos->pos_x; }
+void PlayerControl::Right() { ++player_pos->pos_x; }
+void PlayerControl::Up() { --player_pos->pos_y; }
+void PlayerControl::Down() { ++player_pos->pos_y; }

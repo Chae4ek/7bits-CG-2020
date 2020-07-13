@@ -15,11 +15,11 @@ public:
 	{
 		Add(args...);
 	}
-	template<class Component_1, class... Components>
-	void Add(Component_1 arg_1, Components ...args)
+	template<class Component, class... Components>
+	void Add(Component arg, Components ...args)
 	{
 		// TODO: remove recursion later?
-		Add(arg_1);
+		Add(arg);
 		Add(args...);
 	}
 	template<class Component>
@@ -30,6 +30,6 @@ public:
 	template<class Component>
 	Component* Get()
 	{
-		return dynamic_cast<Component*>(components[typeid(Component)].get());
+		return dynamic_cast<Component*>(components.at(typeid(Component)).get());
 	}
 };

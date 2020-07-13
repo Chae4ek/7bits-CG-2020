@@ -1,12 +1,12 @@
 ifeq ($(OS), Windows_NT)
 	build = win
 else
-	build = linux
+	build = lin_mac
 endif
 
 all: $(build)
 
-linux:
+lin_mac:
 	rm -rf build && rm -rf bin && mkdir build && cd build && cmake .. && make && mv game ../bin && cd ../bin && ./game
 
 win:

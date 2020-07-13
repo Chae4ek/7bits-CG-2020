@@ -2,19 +2,15 @@
 
 #include <BearLibTerminal.h>
 #include "Components.h"
-
-// TODO: move to component of "Movement"
-#define KEY_LEFT TK_LEFT
-#define KEY_RIGHT TK_RIGHT
-#define KEY_UP TK_UP
-#define KEY_DOWN TK_DOWN
+#include "Entity.h"
 
 class PlayerControl
 {
 private:
-	Position *player;
+	Position *player_pos;
+	Movement *player_move;
 public:
-	PlayerControl(Position *player);
+	PlayerControl(Entity &player);
 	
 	void Update(int key);
 	
@@ -27,16 +23,13 @@ public:
 	void Down();
 };
 
-// TODO: move to component of "Sprite"
-#define SPRITE_PLAYER '@'
-#define SPRITE_WALL '#'
-
 class Screen
 {
 private:
-	Position *player;
+	Position *player_pos;
+	Sprite *player_sprite;
 public:
-	Screen(Position *player);
+	Screen(Entity &player);
 	
 	void Update();
 };

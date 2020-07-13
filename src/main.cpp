@@ -3,9 +3,9 @@
 
 int main()
 {
-	Entity player(Position(0, 0), Test(1));
-	PlayerControl player_control(player.Get<Position>());
-	Screen screen(player.Get<Position>());
+	Entity player(Position(0, 0), Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite('@'));
+	PlayerControl player_control(player);
+	Screen screen(player);
 	
 	terminal_open();
 	terminal_refresh();

@@ -11,11 +11,25 @@ public:
 	Position(int x, int y) : pos_x(x), pos_y(y) {}
 };
 
-// TODO: delete this later
-class Test : public IComponent
+class Movement : public IComponent
 {
 public:
-	int t;
+	int KEY_LEFT;
+	int KEY_RIGHT;
+	int KEY_UP;
+	int KEY_DOWN;
 	
-	Test(int t) : t(t) {}
+	Movement(int KEY_LEFT, int KEY_RIGHT, int KEY_UP, int KEY_DOWN) :
+		KEY_LEFT(KEY_LEFT),
+		KEY_RIGHT(KEY_RIGHT),
+		KEY_UP(KEY_UP),
+		KEY_DOWN(KEY_DOWN) {}
+};
+
+class Sprite : public IComponent
+{
+public:
+	char sprite;
+	
+	Sprite(char sprite) : sprite(sprite) {}
 };
