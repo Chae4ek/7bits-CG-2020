@@ -3,7 +3,7 @@
 
 int main()
 {
-	Entity player(Position(0, 0), Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite('@'));
+	Entity player(Position(0, 0), Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite('@', COLOR_WHITE));
 	PlayerControl player_control(player);
 	Screen screen(player);
 	
