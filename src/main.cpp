@@ -1,11 +1,19 @@
 #include <BearLibTerminal.h>
 #include "ECS/ECSEngine.h"
+#include "Advanced.h"
 
 int main()
 {
-	Entity player(Position(0, 0), Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite('@', COLOR_WHITE));
+	Entity player(
+		Position(0, 0),
+		Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN),
+		Sprite('@', COLOR_WHITE),
+		GameStats());
 	PlayerControl player_control(player);
-	Screen screen(player);
+	
+	Sprite wall_sprite('#', COLOR_GREY);
+	
+	Screen screen(player, wall_sprite);
 	
 	terminal_open();
 	terminal_refresh();

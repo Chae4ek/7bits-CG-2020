@@ -45,3 +45,10 @@ public:
 	
 	Sprite(char texture, color_t color) : texture(texture), color(color) {}
 };
+
+class GameStats : public IComponent
+{
+public:
+	int coins = 0;
+	int step_count = 0;
+};
