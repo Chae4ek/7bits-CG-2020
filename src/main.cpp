@@ -13,15 +13,14 @@ int main()
 		Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN),
 		Sprite('@', COLOR_WHITE),
 		GameStats());
-	PlayerControl player_control(player);
 	
 	Sprite wall_sprite('#', COLOR_GREY);
 	
 	MapManager map_manager(player.Get<Position>());
+	
+	PlayerControl player_control(player);
 	GenerateMap gen_map(1, map_manager);
-	
 	Collision collision(map_manager, player);
-	
 	Screen screen(map_manager, player, wall_sprite);
 	
 	while (true)

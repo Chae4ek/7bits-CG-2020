@@ -1,4 +1,5 @@
 #include "ECS/Systems.h"
+#include "Advanced.h"
 
 Screen::Screen(MapManager &map_manager, Entity &player, Sprite &wall_sprite) :
 	map_manager(&map_manager),
@@ -14,11 +15,8 @@ void Screen::Update()
 	
 	// TODO: merge this to custom output
 	terminal_color(player_sprite->color);
-	int x = player_pos->pos_x % map_manager->size_x;
-	int y = player_pos->pos_y % map_manager->size_y;
-	if (x < 0) x += map_manager->size_x;
-	if (y < 0) y += map_manager->size_y;
-	terminal_put(x, y, player_sprite->texture);
+	auto player_local_pos = GlobalToLocal(map_manager, player_pos->pos_x, player_pos->pos_y);
+	terminal_put(player_local_pos.first, player_local_pos.second, player_sprite->texture);
 	
 	auto entity = map_manager->entities[map_manager->GetChunkCoords()].begin();
 	auto end = map_manager->entities[map_manager->GetChunkCoords()].end();
