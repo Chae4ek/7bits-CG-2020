@@ -2,7 +2,7 @@
 
 #include <BearLibTerminal.h>
 #include "Components.h"
-#include "Entity.h"
+#include "MapManager.h"
 
 class PlayerControl
 {
@@ -27,13 +27,29 @@ public:
 class Screen
 {
 private:
+	MapManager *map_manager;
+	
 	Position *player_pos;
 	Sprite *player_sprite;
 	GameStats *player_stats;
 	
 	Sprite *wall_sprite;
 public:
-	Screen(Entity &player, Sprite &wall_sprite);
+	Screen(MapManager &map_manager, Entity &player, Sprite &wall_sprite);
 	
 	void Update();
+	void PostUpdate();
+};
+
+class GenerateMap
+{
+private:
+	unsigned int seed;
+	MapManager *map_manager;
+public:
+	GenerateMap(unsigned int seed, MapManager &map_manager);
+	
+	void Update();
+	
+	void GenerateChunk();
 };

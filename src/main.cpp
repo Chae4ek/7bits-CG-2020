@@ -1,9 +1,13 @@
 #include <BearLibTerminal.h>
 #include "ECS/ECSEngine.h"
-#include "Advanced.h"
 
 int main()
 {
+	terminal_open();
+	terminal_refresh();
+	// TODO: resizeable window with resize object sprites
+	terminal_set("window: title=Game, size=80x30");
+	
 	Entity player(
 		Position(0, 0),
 		Movement(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN),
@@ -13,11 +17,10 @@ int main()
 	
 	Sprite wall_sprite('#', COLOR_GREY);
 	
-	Screen screen(player, wall_sprite);
+	MapManager map_manager(player.Get<Position>());
+	GenerateMap gen_map(1, map_manager);
 	
-	terminal_open();
-	terminal_refresh();
-	terminal_set("window: title=Game, size=80x30, resizeable=true");
+	Screen screen(map_manager, player, wall_sprite);
 	
 	while (true)
 	{
@@ -27,8 +30,10 @@ int main()
 			if (key == TK_CLOSE) break;
 			player_control.Update(key);
 		}
+		gen_map.Update();
 		
 		screen.Update();
+		screen.PostUpdate();
 	}
 	
 	terminal_close();
