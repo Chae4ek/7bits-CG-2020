@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -fPIC -march=native")
 project(game LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
@@ -9,8 +9,11 @@ set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_SOURCE_DIR}/bin/")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 set(CMAKE_INSTALL_RPATH "./")
 
-file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/include/*.h")
-file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+set(PROJECT_HEADERS_DIR "${CMAKE_SOURCE_DIR}/include/")
+set(PROJECT_SOURCES_DIR "${CMAKE_SOURCE_DIR}/src/")
+
+file(GLOB_RECURSE HEADERS "${PROJECT_HEADERS_DIR}/*.h")
+file(GLOB_RECURSE SOURCES "${PROJECT_SOURCES_DIR}/*.cpp")
 
 include_directories("${CMAKE_SOURCE_DIR}/include/")
 
@@ -25,3 +28,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 else()
 	file(COPY ${BLT_LIBRARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()
+
+# Add linting before compilation
+include(CppLint)
+ADD_STYLE_CHECK_TARGET(lint ${PROJECT_NAME} ${PROJECT_HEADERS_DIR} ${PROJECT_SOURCES_DIR})
+add_dependencies(${PROJECT_NAME} lint)

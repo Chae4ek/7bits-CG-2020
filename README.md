@@ -1,5 +1,7 @@
 # Game
 
+Копите капитал!
+
 ## Управление
 [Arrows] -- передвижение
 
@@ -8,6 +10,7 @@
 1. g++ (MinGW-w64 / GNU / Clang)
 2. make (mingw32-make)
 3. cmake (3.17+)
+4. python2 (для cpplint)
 
 # Компиляция
 

@@ -1,7 +1,6 @@
 #pragma once
 
-class IComponent
-{
-public:
-	virtual ~IComponent() = default;
+class IComponent {
+ public:
+  virtual ~IComponent() = default;
 };

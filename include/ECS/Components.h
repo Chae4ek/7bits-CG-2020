@@ -2,28 +2,23 @@
 
 #include "Component.h"
 
-class Position : public IComponent
-{
-public:
-	int pos_x;
-	int pos_y;
-	
-	Position(int x, int y) : pos_x(x), pos_y(y) {}
+class Position : public IComponent {
+ public:
+  int pos_x;
+  int pos_y;
+
+  Position(int x, int y) : pos_x(x), pos_y(y) {}
 };
 
-class Movement : public IComponent
-{
-public:
-	int KEY_LEFT;
-	int KEY_RIGHT;
-	int KEY_UP;
-	int KEY_DOWN;
-	
-	Movement(int KEY_LEFT, int KEY_RIGHT, int KEY_UP, int KEY_DOWN) :
-		KEY_LEFT(KEY_LEFT),
-		KEY_RIGHT(KEY_RIGHT),
-		KEY_UP(KEY_UP),
-		KEY_DOWN(KEY_DOWN) {}
+class Movement : public IComponent {
+ public:
+  int KEY_LEFT;
+  int KEY_RIGHT;
+  int KEY_UP;
+  int KEY_DOWN;
+
+  Movement(int KEY_LEFT, int KEY_RIGHT, int KEY_UP, int KEY_DOWN)
+      : KEY_LEFT(KEY_LEFT), KEY_RIGHT(KEY_RIGHT), KEY_UP(KEY_UP), KEY_DOWN(KEY_DOWN) {}
 };
 
 #define COLOR_RED 0xFFFF0000
@@ -37,28 +32,25 @@ public:
 #define COLOR_GREY 0xFF7F7F7F
 
 // TODO: mixed textures and colors
-class Sprite : public IComponent
-{
-public:
-	char texture;
-	color_t color;
-	
-	Sprite(char texture, color_t color) : texture(texture), color(color) {}
+class Sprite : public IComponent {
+ public:
+  char texture;
+  color_t color;
+
+  Sprite(char texture, color_t color) : texture(texture), color(color) {}
 };
 
-class GameStats : public IComponent
-{
-public:
-	int coins = 0;
-	int step_count = 0;
+class GameStats : public IComponent {
+ public:
+  int coins = 0;
+  int step_count = 0;
 };
 
 #define TYPE_COIN 1
 
-class Type : public IComponent
-{
-public:
-	int type;
-	
-	Type(int type) : type(type) {}
+class Type : public IComponent {
+ public:
+  int type;
+
+  explicit Type(int type) : type(type) {}
 };
