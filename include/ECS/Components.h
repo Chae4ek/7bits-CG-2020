@@ -52,3 +52,13 @@ public:
 	int coins = 0;
 	int step_count = 0;
 };
+
+#define TYPE_COIN 1
+
+class Type : public IComponent
+{
+public:
+	int type;
+	
+	Type(int type) : type(type) {}
+};

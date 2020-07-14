@@ -53,3 +53,15 @@ public:
 	
 	void GenerateChunk();
 };
+
+class Collision
+{
+private:
+	MapManager *map_manager;
+	Entity *player;
+	Position *player_pos;
+public:
+	Collision(MapManager &map_manager, Entity &player);
+	
+	void Update();
+};
