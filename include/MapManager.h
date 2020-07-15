@@ -16,7 +16,7 @@ class MapManager {
   std::map<std::pair<int, int>, std::vector<std::unique_ptr<Entity>>> entities;
 
   int size_x = terminal_state(TK_WIDTH);
-  int size_y = terminal_state(TK_HEIGHT) - 6;
+  int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
 
   const Position *player;
 
@@ -26,7 +26,7 @@ class MapManager {
     entities[GetChunkCoords()].emplace_back(std::make_unique<Entity>(std::move(entity)));
   }
   void Destroy(std::vector<std::unique_ptr<Entity>>::const_iterator entity) {
-    entities[GetChunkCoords()].erase(entity);
+    entities.at(GetChunkCoords()).erase(entity);
   }
   inline bool CurrentIsEmpty() const {
     return !entities.count(GetChunkCoords());

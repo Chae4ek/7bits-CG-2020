@@ -40,6 +40,10 @@ class Screen {
 
   void Update();
   void PostUpdate();
+
+  void Print(int x, int y, const Sprite *sprite);
+  template<class... Args>
+  void Print(color_t color, int x, int y, const char *s, Args... args);
 };
 
 class GenerateMap {

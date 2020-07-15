@@ -4,6 +4,19 @@
 
 #include "MapManager.h"
 
+// TODO: const or define?
+#define COLOR_RED 0xFFFF0000
+#define COLOR_ORANGE 0xFFFF7F00
+#define COLOR_YELLOW 0xFFFFFF00
+#define COLOR_GREEN 0xFF00FF00
+#define COLOR_AQUA 0xFF00FFFF
+#define COLOR_BLUE 0xFF3F42FF
+#define COLOR_PURPLE 0xFFBF00FF
+#define COLOR_WHITE 0xFFFFFFFF
+#define COLOR_GREY 0xFF7F7F7F
+
+#define TYPE_COIN 1
+
 static uint32_t _SEED_RANDOM = 1;
 
 static int Random() {

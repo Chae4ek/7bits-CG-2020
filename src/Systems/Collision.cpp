@@ -7,6 +7,7 @@ Collision::Collision(MapManager *map_manager, const Entity &player)
 void Collision::Update() {
   auto player_local_pos = GlobalToLocal(map_manager, player_pos->pos_x, player_pos->pos_y);
 
+  // TODO: ну это просто ужс
   auto entity = map_manager->entities[map_manager->GetChunkCoords()].begin();
   auto end = map_manager->entities[map_manager->GetChunkCoords()].end();
   while (entity != end) {

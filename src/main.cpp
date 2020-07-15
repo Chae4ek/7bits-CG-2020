@@ -1,7 +1,9 @@
 #include <BearLibTerminal.h>
 
-#include "ECS/ECSEngine.h"
+#include "Advanced.h"
+#include "ECS/Systems.h"
 
+// TODO: create class Game
 int main() {
   terminal_open();
   terminal_refresh();
