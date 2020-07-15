@@ -38,7 +38,7 @@ class GameStats : public IComponent {
 
 class Type : public IComponent {
  public:
-  int type;
+  const int type;
 
-  explicit Type(int type) : type(type) {}
+  explicit Type(const int type) : type(type) {}
 };

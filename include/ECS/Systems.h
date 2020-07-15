@@ -16,13 +16,13 @@ class PlayerControl {
 
   void Update(int key);
 
-  int GetPosX();
-  int GetPosY();
+  constexpr int GetPosX();
+  constexpr int GetPosY();
 
-  void Left();
-  void Right();
-  void Up();
-  void Down();
+  constexpr void Left();
+  constexpr void Right();
+  constexpr void Up();
+  constexpr void Down();
 };
 
 class Screen {
@@ -41,18 +41,18 @@ class Screen {
   void Update();
   void PostUpdate();
 
-  void Print(int x, int y, const Sprite *sprite);
+  inline void Print(int x, int y, const Sprite *sprite);
   template<class... Args>
-  void Print(color_t color, int x, int y, const char *s, Args... args);
+  inline void Print(color_t color, int x, int y, const char *s, Args... args);
 };
 
 class GenerateMap {
  private:
-  unsigned int seed;
+  const unsigned int seed;
   MapManager *map_manager;
 
  public:
-  GenerateMap(unsigned int seed, MapManager *map_manager);
+  GenerateMap(const unsigned int seed, MapManager *map_manager);
 
   void Update();
 

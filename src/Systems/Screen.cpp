@@ -34,12 +34,12 @@ void Screen::PostUpdate() {
   terminal_refresh();
 }
 
-void Screen::Print(int x, int y, const Sprite *sprite) {
+inline void Screen::Print(int x, int y, const Sprite *sprite) {
   terminal_color(sprite->color);
   terminal_put(x, y, sprite->texture);
 }
 template<class... Args>
-void Screen::Print(color_t color, int x, int y, const char *s, Args... args) {
+inline void Screen::Print(color_t color, int x, int y, const char *s, Args... args) {
   terminal_color(color);
   terminal_printf(x, y, s, args...);
 }
