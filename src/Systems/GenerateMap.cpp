@@ -14,7 +14,7 @@ void GenerateMap::GenerateChunk() {
   int count_coins = Random() % 15 + 5;
   while (count_coins--) {
     // TODO: coords should NOT be equal!
-    map_manager->Add(Entity(Type(TYPE_COIN), Position(Random() % map_manager->size_x, Random() % map_manager->size_y),
-                            Sprite('$', COLOR_YELLOW)));
+    map_manager->CreateEntity(Type(TYPE_COIN), Position(Random() % map_manager->size_x, Random() % map_manager->size_y),
+                              Sprite('$', COLOR_YELLOW));
   }
 }

@@ -22,8 +22,9 @@ class MapManager {
 
   explicit MapManager(const Position *player) : player(player) {}
 
-  void Add(Entity entity) {
-    entities[GetChunkCoords()].emplace_back(std::make_unique<Entity>(std::move(entity)));
+  template<class... Components>
+  void CreateEntity(Components... args) {
+    entities[GetChunkCoords()].emplace_back(std::make_unique<Entity>(args...));
   }
   void Destroy(std::vector<std::unique_ptr<Entity>>::const_iterator entity) {
     entities.at(GetChunkCoords()).erase(entity);

@@ -14,7 +14,11 @@ constexpr color_t COLOR_PURPLE = 0xFFBF00FF;
 constexpr color_t COLOR_WHITE = 0xFFFFFFFF;
 constexpr color_t COLOR_GREY = 0xFF7F7F7F;
 
+constexpr int TYPE_PLAYER = 0;
 constexpr int TYPE_COIN = 1;
+
+constexpr char TEXTURE_PLAYER = '@';
+constexpr char TEXTURE_WALL = '#';
 
 static uint32_t _SEED_RANDOM = 1;
 

@@ -1,15 +1,12 @@
 #pragma once
 
-#include <BearLibTerminal.h>
-
-#include "Components.h"
 #include "MapManager.h"
 
 class PlayerControl {
  private:
-  Position *player_pos;
-  Movement *player_move;
-  GameStats *player_stats;
+  Position *position;
+  Controls *controls;
+  GameStats *game_stats;
 
  public:
   explicit PlayerControl(const Entity &player);
@@ -39,7 +36,8 @@ class Screen {
   Screen(const MapManager &map_manager, const Entity &player, const Sprite &wall_sprite);
 
   void Update();
-  void PostUpdate();
+
+  void UpdateGUI();
 
   inline void Print(int x, int y, const Sprite *sprite);
   template<class... Args>

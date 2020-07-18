@@ -22,7 +22,8 @@ void Screen::Update() {
     ++entity;
   }
 }
-void Screen::PostUpdate() {
+
+void Screen::UpdateGUI() {
   terminal_color(wall_sprite->color);
   for (int i = 0; i < map_manager->size_x; ++i) terminal_put(i, map_manager->size_y, wall_sprite->texture);
 
