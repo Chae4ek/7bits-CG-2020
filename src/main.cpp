@@ -7,7 +7,7 @@ int main() {
   // TODO: resizeable window with resize object sprites
   terminal_set("window: title=Game, size=80x30");
 
-  Game game;
+  Game game(1);
 
   game.Run();
 

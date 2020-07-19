@@ -1,8 +1,8 @@
 #pragma once
 
-#include <utility>
+#include <BearLibTerminal.h>
 
-#include "MapManager.h"
+#include <utility>
 
 constexpr color_t COLOR_RED = 0xFFFF0000;
 constexpr color_t COLOR_ORANGE = 0xFFFF7F00;
@@ -16,8 +16,10 @@ constexpr color_t COLOR_GREY = 0xFF7F7F7F;
 
 constexpr int TYPE_PLAYER = 0;
 constexpr int TYPE_COIN = 1;
+constexpr int TYPE_WALL = 2;
 
 constexpr char TEXTURE_PLAYER = '@';
+constexpr char TEXTURE_COIN = '$';
 constexpr char TEXTURE_WALL = '#';
 
 static uint32_t _SEED_RANDOM = 1;
@@ -33,12 +35,4 @@ static inline void Srand(unsigned int seed, int seed1, int seed2) {
   Srand(seed);
   Srand(seed1 + Random());
   Srand(seed2 + Random());
-}
-
-static constexpr std::pair<int, int> GlobalToLocal(const MapManager *mm, int x, int y) {
-  int xl = x % mm->size_x;
-  int yl = y % mm->size_y;
-  if (xl < 0) xl += mm->size_x;
-  if (yl < 0) yl += mm->size_y;
-  return std::make_pair(xl, yl);
 }

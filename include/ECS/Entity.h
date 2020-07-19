@@ -4,7 +4,7 @@
 #include <memory>
 #include <typeindex>
 
-#include "Component.h"
+#include "IComponent.h"
 
 class Entity {
  private:

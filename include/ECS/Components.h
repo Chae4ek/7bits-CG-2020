@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.h"
+#include "IComponent.h"
 
 class Position : public IComponent {
  public:
