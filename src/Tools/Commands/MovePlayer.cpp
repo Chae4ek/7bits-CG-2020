@@ -5,7 +5,8 @@ MovePlayer::MovePlayer(MapManager *map_manager, Entity *player, Position new_pos
 
 void MovePlayer::Execute() {
   chunk_coords_t chunk_coords = map_manager->GetChunkCoords(&new_pos);
-  map_manager->TryGenerateChunk(chunk_coords);
+
+  Generate(map_manager).TryGenerateChunk(chunk_coords);
 
   entity_ptr entity = map_manager->GetEntity(chunk_coords, map_manager->GlobalToLocal(&new_pos));
 

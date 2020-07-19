@@ -23,7 +23,7 @@ void Screen::Update() {
 }
 
 void Screen::UpdateGUI() {
-  terminal_color(COLOR_GREY);
+  terminal_color(COLOR_BLUE);
   for (int i = 0; i < map_manager->size_x; ++i) terminal_put(i, map_manager->size_y, TEXTURE_WALL);
 
   Print(COLOR_WHITE, 1, map_manager->size_y + 2, "Coins = ");

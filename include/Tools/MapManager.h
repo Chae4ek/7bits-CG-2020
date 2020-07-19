@@ -27,6 +27,7 @@ struct entity_ptr {
 class MapManager {
  public:
   std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>> entities;
+  // TODO: create structures container?
 
   int size_x = terminal_state(TK_WIDTH);
   int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
@@ -37,16 +38,14 @@ class MapManager {
 
   MapManager(const unsigned int seed, const Position *player);
 
-  template<class... Components>
-  void CreateEntity(chunk_coords_t chunk_coords, Components... args);
+  void CreateEntity(chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
 
-  inline bool ChunkIsEmpty(const chunk_coords_t chunk_coords) const;
+  bool ChunkIsEmpty(const chunk_coords_t chunk_coords) const;
   chunk_coords_t GetChunkCoords(const Position *global_pos) const;
 
+  Position GlobalToLocal(const Position global_pos) const;
   Position GlobalToLocal(const Position *global_pos) const;
-
-  void TryGenerateChunk(const chunk_coords_t chunk_coords);
 
   entity_ptr GetEntity(const chunk_coords_t chunk_coords, const Position local_pos) const;
 };

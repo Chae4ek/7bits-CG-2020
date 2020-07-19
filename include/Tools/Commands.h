@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "Collision.h"
+#include "GenerateMap.h"
 #include "ICommand.h"
-#include "MapManager.h"
 
 class MovePlayer : public ICommand {
  private:

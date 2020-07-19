@@ -8,7 +8,14 @@ Game::Game(const unsigned int seed)
       screen(&map_manager, &player) {}
 
 void Game::Run() {
-  map_manager.TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+  // TODO: delete dynamic generation?
+
+  // due to dynamic generation,
+  // DIFFERENT structures are possible
+  // even with SAME SEEDS
+  // and it can create bugs
+  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+
   while (true) {
     if (Input()) break;
     Update();
