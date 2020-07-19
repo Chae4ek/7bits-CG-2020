@@ -1,9 +1,11 @@
 #pragma once
 
-#include "MapManager.h"
+#include "Tools/Commands.h"
+#include "Tools/MapManager.h"
 
 class PlayerControl {
  private:
+  Entity *player;
   MapManager *map_manager;
 
   Position *position;
@@ -11,19 +13,12 @@ class PlayerControl {
   GameStats *game_stats;
 
  public:
-  explicit PlayerControl(const Entity *player, MapManager *map_manager);
+  explicit PlayerControl(Entity *player, MapManager *map_manager);
 
   void Update(int key);
 
   constexpr int GetPosX();
   constexpr int GetPosY();
-
-  inline void Left();
-  inline void Right();
-  inline void Up();
-  inline void Down();
-
-  inline void TryGoToPos(const Position *new_pos);
 };
 
 class Screen {

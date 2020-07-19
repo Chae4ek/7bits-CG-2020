@@ -14,8 +14,8 @@ void Screen::Update() {
   Position player_local_pos = map_manager->GlobalToLocal(player_pos);
   Print(player_local_pos.pos_x, player_local_pos.pos_y, player_sprite);
 
-  auto entity = map_manager->entities.at(map_manager->GetChunkCoords(player_pos)).begin();
-  auto end = map_manager->entities.at(map_manager->GetChunkCoords(player_pos)).end();
+  entity_t entity = map_manager->entities.at(map_manager->GetChunkCoords(player_pos)).begin();
+  entity_t end = map_manager->entities.at(map_manager->GetChunkCoords(player_pos)).end();
   while (entity != end) {
     Print((*entity)->Get<Position>()->pos_x, (*entity)->Get<Position>()->pos_y, (*entity)->Get<Sprite>());
     ++entity;
