@@ -1,5 +1,4 @@
-#include "Advanced.h"
-#include "ECS/Systems.h"
+#include "Render/Screen.h"
 
 Screen::Screen(const MapManager *map_manager, const Entity *player)
     : map_manager(map_manager),

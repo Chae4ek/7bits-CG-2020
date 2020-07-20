@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Advanced.h"
 #include "ECS/Systems.h"
+#include "Render/Screen.h"
 
 class Game {
  private:

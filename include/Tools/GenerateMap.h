@@ -12,7 +12,7 @@ class Generate {
   const double threshold = 0.125;
   const double sharp = 0.009;
 
-  const int max_coin = 4;
+  const int coin_chance = 4;
 
   explicit Generate(MapManager *map_manager);
 
