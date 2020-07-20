@@ -23,12 +23,12 @@ Entity Generate::GetStructure(const chunk_coords_t chunk_global_pos, const int x
   Srand(seed, x * map_manager->size_x, y * map_manager->size_y);
 
   if ((noise > threshold + sharp || Random() % 2) && ((noise > threshold - sharp && Random() % 2) || noise > threshold))
-    return Entity(Type(TYPE_WALL), map_manager->GlobalToLocal(Position(x, y)), Sprite(TEXTURE_WALL, COLOR_GREY));
+    return Entity(Type(TYPE_WALL), map_manager->GlobalToLocal(Position(x, y)), Sprite(TEXTURE_WALL, COLOR_WALL));
 
   Srand(seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
 
   if (Random() % (map_manager->size_x * map_manager->size_y / coin_chance) == 0)
-    return Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)), Sprite(TEXTURE_COIN, COLOR_YELLOW));
+    return Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)), Sprite(TEXTURE_COIN, COLOR_COIN));
 
   return Entity(Type(TYPE_NULL));
 }

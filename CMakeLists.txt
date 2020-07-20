@@ -15,7 +15,7 @@ set(PROJECT_SOURCES_DIR "${CMAKE_SOURCE_DIR}/src/")
 file(GLOB_RECURSE HEADERS "${PROJECT_HEADERS_DIR}/*.h")
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCES_DIR}/*.cpp")
 
-include_directories("${CMAKE_SOURCE_DIR}/include/")
+include_directories(${PROJECT_HEADERS_DIR})
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
