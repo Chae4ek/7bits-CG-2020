@@ -27,15 +27,13 @@ int main() {
   int x = 0;
   int y = 0;
 
-  int x_top;
-  int y_top;
+  int x_top = 0;
+  int y_top = 0;
   int x_bot;
   int y_bot;
 
-  FILE *f = fopen("Structures/new", "r");
+  FILE *f = fopen("./Structures/new", "r");
   if (f) {
-    fread(&x_top, sizeof(int), 1, f);
-    fread(&y_top, sizeof(int), 1, f);
     fread(&x_bot, sizeof(int), 1, f);
     fread(&y_bot, sizeof(int), 1, f);
 
@@ -96,11 +94,12 @@ int main() {
         if (y > y_bot) y_bot = y;
       }
 
-  f = fopen("Structures/new", "w");
-  fwrite(&x_top, sizeof(int), 1, f);
-  fwrite(&y_top, sizeof(int), 1, f);
-  fwrite(&x_bot, sizeof(int), 1, f);
-  fwrite(&y_bot, sizeof(int), 1, f);
+  int size_x = x_bot - x_top;
+  int size_y = y_bot - y_top;
+
+  f = fopen("./Structures/new", "w");
+  fwrite(&size_x, sizeof(int), 1, f);
+  fwrite(&size_y, sizeof(int), 1, f);
 
   for (; x_top <= x_bot; ++x_top)
     for (int y = y_top; y <= y_bot; ++y) fwrite(&structure[x_top][y], sizeof(int), 1, f);
