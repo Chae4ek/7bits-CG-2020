@@ -1,8 +1,11 @@
 #include <BearLibTerminal.h>
 
+#include <string>
+
 #include "Advanced.h"
 #include "ECS/Components.h"
 #include "ECS/Entity.h"
+#include "Tools/ReaderStruct.h"
 
 int main() {
   terminal_open();
@@ -18,7 +21,7 @@ int main() {
     for (int j = 0; j < HEIGHT; ++j) structure[i][j] = TYPE_NULL;
   }
 
-  // TODO: replace with expandable structure
+  // TODO: replace with expandable structure (dictionary?)
   const int max = 4;
   Sprite entities[4] = {Sprite('x', _COLOR_RED), Sprite(TEXTURE_PLAYER, COLOR_PLAYER), Sprite(TEXTURE_COIN, COLOR_COIN),
                         Sprite(TEXTURE_WALL, COLOR_WALL)};
@@ -32,16 +35,19 @@ int main() {
   int x_bot;
   int y_bot;
 
-  FILE *f = fopen("./Structures/new", "r");
-  if (f) {
-    fread(&x_bot, sizeof(int), 1, f);
-    fread(&y_bot, sizeof(int), 1, f);
+  std::string struct_path = "./Structures/" + std::to_string(-1);
+  FILE *file = fopen(struct_path.c_str(), "r");
 
-    for (; x_top <= x_bot; ++x_top)
-      for (int y = y_top; y <= y_bot; ++y) fread(&structure[x_top][y], sizeof(int), 1, f);
+  ReaderStruct reader;
+  reader.SetStruct(file);
+  bool generate = reader.SetGenerate(0, 0, WIDTH, HEIGHT);
+  struct_info info = reader.GetInfo();
 
-    fclose(f);
+  if (generate) {
+    for (; info.x_top <= info.x_bot; ++info.x_top)
+      for (int y = info.y_top; y <= info.y_bot; ++y) structure[info.x_top][y] = reader.GetNextEntityType();
   }
+  fclose(file);
 
   while (true) {
     terminal_refresh();
@@ -97,7 +103,7 @@ int main() {
   int size_x = x_bot - x_top;
   int size_y = y_bot - y_top;
 
-  f = fopen("./Structures/new", "w");
+  FILE *f = fopen("./Structures/new", "w");
   fwrite(&size_x, sizeof(int), 1, f);
   fwrite(&size_y, sizeof(int), 1, f);
 
