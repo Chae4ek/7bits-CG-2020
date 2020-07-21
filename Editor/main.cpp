@@ -1,5 +1,6 @@
 #include <BearLibTerminal.h>
 
+#include <iostream>
 #include <string>
 
 #include "Advanced.h"
@@ -8,9 +9,13 @@
 #include "Tools/ReaderStruct.h"
 
 int main() {
+  std::cout << "Structure name: ";
+  std::string name;
+  std::cin >> name;
+
   terminal_open();
 
-  terminal_set("window: title=Game, size=80x30");
+  terminal_set("window: title=Game, size=80x30; input: mouse-cursor=false, filter=[keyboard, mouse+]");
 
   const int WIDTH = terminal_state(TK_WIDTH);
   const int HEIGHT = terminal_state(TK_HEIGHT) - 6;
@@ -35,7 +40,7 @@ int main() {
   int x_bot;
   int y_bot;
 
-  std::string struct_path = "./Structures/" + std::to_string(-1);
+  std::string struct_path = "./Structures/" + name;
   FILE *file = fopen(struct_path.c_str(), "r");
 
   ReaderStruct reader;
@@ -49,13 +54,15 @@ int main() {
   }
   fclose(file);
 
+  int set = 0;
+
   while (true) {
     terminal_refresh();
     terminal_clear();
 
     for (int x = 0; x < WIDTH; ++x) {
       for (int y = 0; y < HEIGHT; ++y) {
-        if (structure[x][y]) {
+        if (structure[x][y] != TYPE_NULL) {
           terminal_color(entities[structure[x][y]].color);
           terminal_put(x, y, entities[structure[x][y]].texture);
         }
@@ -64,7 +71,8 @@ int main() {
       terminal_put(x, HEIGHT, TEXTURE_WALL);
     }
     terminal_color(_COLOR_YELLOW);
-    terminal_printf(1, HEIGHT + 2, "[[Q/W]] listing types");
+    terminal_printf(1, HEIGHT + 2, "[[WHEEL]] listing types");
+    terminal_printf(1, HEIGHT + 4, "[[LCM/RCM]] set/delete type");
 
     terminal_color(entities[current_type].color);
     terminal_put(x, y, entities[current_type].texture);
@@ -74,16 +82,26 @@ int main() {
 
       if (key == TK_CLOSE) break;
 
-      if (key == TK_ENTER) structure[x][y] = current_type;
+      if (key == TK_MOUSE_LEFT) set = 1;
+      if (key == TK_MOUSE_RIGHT) set = -1;
+      if (key == (TK_MOUSE_LEFT | TK_KEY_RELEASED) || key == (TK_MOUSE_RIGHT | TK_KEY_RELEASED)) set = 0;
 
-      if (key == TK_LEFT && x > 0) --x;
-      if (key == TK_RIGHT && x < WIDTH - 1) ++x;
-      if (key == TK_UP && y > 0) --y;
-      if (key == TK_DOWN && y < HEIGHT - 1) ++y;
+      if (key == TK_MOUSE_MOVE) {
+        x = terminal_state(TK_MOUSE_X);
+        y = terminal_state(TK_MOUSE_Y);
+      }
+      if (key == TK_MOUSE_SCROLL) {
+        int amount = terminal_state(TK_MOUSE_WHEEL);
 
-      if (key == TK_Q && current_type > 0) --current_type;
-      if (key == TK_W && current_type < max - 1) ++current_type;
+        current_type += amount;
+        if (current_type < 0) current_type = 0;
+        if (current_type >= max) current_type = max - 1;
+      }
     }
+    if (set == 1)
+      structure[x][y] = current_type;
+    else if (set == -1)
+      structure[x][y] = 0;
   }
 
   x_top = WIDTH;
@@ -103,7 +121,7 @@ int main() {
   int size_x = x_bot - x_top;
   int size_y = y_bot - y_top;
 
-  FILE *f = fopen("./Structures/new", "w");
+  FILE *f = fopen(struct_path.c_str(), "w");
   fwrite(&size_x, sizeof(int), 1, f);
   fwrite(&size_y, sizeof(int), 1, f);
 
