@@ -14,6 +14,9 @@ constexpr color_t _COLOR_PURPLE = 0xFFBF00FF;
 constexpr color_t _COLOR_WHITE = 0xFFFFFFFF;
 constexpr color_t _COLOR_GREY = 0xFF7F7F7F;
 
+// TODO: create dictionary for all
+// make prefabs for entities
+
 constexpr int TYPE_NULL = 0;
 constexpr int TYPE_PLAYER = 1;
 constexpr int TYPE_COIN = 2;
