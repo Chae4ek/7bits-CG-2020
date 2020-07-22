@@ -11,7 +11,8 @@
 int main() {
   std::cout << "Structure name: ";
   std::string name;
-  std::cin >> name;
+  getline(std::cin, name);
+  std::string struct_path = "./Structures/" + name;
 
   terminal_open();
 
@@ -40,7 +41,6 @@ int main() {
   int x_bot;
   int y_bot;
 
-  std::string struct_path = "./Structures/" + name;
   FILE *file = fopen(struct_path.c_str(), "r");
 
   ReaderStruct reader;
@@ -121,6 +121,12 @@ int main() {
   int size_x = x_bot - x_top;
   int size_y = y_bot - y_top;
 
+  terminal_close();
+
+  std::cout << "Save as: ";
+  getline(std::cin, name);
+  struct_path = "./Structures/" + name;
+
   FILE *f = fopen(struct_path.c_str(), "w");
   fwrite(&size_x, sizeof(int), 1, f);
   fwrite(&size_y, sizeof(int), 1, f);
@@ -133,6 +139,5 @@ int main() {
   for (int i = 0; i < WIDTH; ++i) delete[] structure[i];
   delete[] structure;
 
-  terminal_close();
   return 0;
 }
