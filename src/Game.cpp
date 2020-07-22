@@ -11,9 +11,10 @@ void Game::Run() {
   // TODO: delete dynamic generation?
 
   // due to dynamic generation,
-  // DIFFERENT structures are possible
-  // even with SAME SEEDS
+  // DIFFERENT structures are possible even with SAME SEEDS (if structs will generate on several chunks)
   // and it can create bugs
+
+  // it fully fixed now
   Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
 
   while (true) {

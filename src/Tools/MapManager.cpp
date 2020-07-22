@@ -34,18 +34,13 @@ Position MapManager::GlobalToLocal(const Position *global_pos) const {
 }
 
 entity_ptr MapManager::GetEntity(const chunk_coords_t chunk_coords, const Position local_pos) const {
-  // TODO: replace to find function or find of coords
-  auto entity = entities.at(chunk_coords).begin();
-  auto end = entities.at(chunk_coords).end();
-  Position *obj;
+  if (ChunkIsEmpty(chunk_coords)) return entity_ptr();
 
-  while (entity != end) {
-    obj = (*entity)->Get<Position>();
+  entity_t entity = std::find_if(entities.at(chunk_coords).begin(), entities.at(chunk_coords).end(),
+                                 [local_pos](const std::unique_ptr<Entity> &e) {
+                                   Position *pos = e->Get<Position>();
+                                   return local_pos.pos_x == pos->pos_x && local_pos.pos_y == pos->pos_y;
+                                 });
 
-    if (local_pos.pos_x == obj->pos_x && local_pos.pos_y == obj->pos_y) break;
-
-    ++entity;
-  }
-
-  return entity_ptr(chunk_coords, entity, end);
+  return entity_ptr(chunk_coords, entity, entity != entities.at(chunk_coords).end());
 }

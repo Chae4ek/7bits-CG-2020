@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <vector>
 
 #include "MapManager.h"
@@ -25,8 +24,9 @@ class Generate {
   explicit Generate(MapManager *map_manager);
 
   void TryGenerateChunk(const chunk_coords_t chunk_coords);
-  void GenerateStruct(const int structure_type, chunk_coords_t chunk_coords, int x, int y);
+  void CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y);
 
+  // empty = 0, single-block > 0, other < 0
   int GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const;
   // Range of [0, 1]
   double PerlinNoise(const double x, const double y) const;

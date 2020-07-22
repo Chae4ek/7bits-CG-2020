@@ -14,15 +14,16 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
         return i.x_top <= x && x <= i.x_bot && i.y_top <= y && y <= i.y_bot;
       });
       if (info != temp_structures.end()) {
-        y = info->y_bot;  // for fast
+        y = info->y_bot;  // for faster
         if (info->x_bot == x && info->y_bot == y) temp_structures.erase(info);
         continue;
       }
 
       int structure = GetStructureType(chunk_global_pos, x + chunk_global_pos.first, y + chunk_global_pos.second);
-
       std::string struct_path = "./Structures/" + std::to_string(structure);
       FILE* file = fopen(struct_path.c_str(), "r");
+
+      if (!file) continue;
 
       ReaderStruct reader;
       reader.SetStruct(file);
@@ -30,17 +31,18 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
 
       if (generate) {
         struct_info info = reader.GetInfo();
-        if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for fast
+        if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for faster
         for (int i = info.x_top; i <= info.x_bot; ++i)
-          for (int j = info.y_top; j <= info.y_bot; ++j) GenerateStruct(reader.GetNextEntityType(), chunk_coords, i, j);
+          for (int j = info.y_top; j <= info.y_bot; ++j) CreateEntity(reader.GetNextEntityType(), chunk_coords, i, j);
       }
 
       fclose(file);
     }
   }
 }
-void Generate::GenerateStruct(const int structure_type, chunk_coords_t chunk_coords, int x, int y) {
-  switch (structure_type) {
+// TODO: replace to prefabs container
+void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y) {
+  switch (type) {
     case TYPE_NULL:
       break;
     case TYPE_WALL:
