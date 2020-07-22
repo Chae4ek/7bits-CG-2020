@@ -29,6 +29,9 @@ else()
 	file(COPY ${BLT_LIBRARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
+file(GLOB STRUCTURES "${CMAKE_SOURCE_DIR}/Editor/Structures/*")
+file(COPY ${STRUCTURES} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Structures/")
+
 # Add linting before compilation
 include(CppLint)
 ADD_STYLE_CHECK_TARGET(lint ${PROJECT_NAME} ${PROJECT_HEADERS_DIR} ${PROJECT_SOURCES_DIR})
