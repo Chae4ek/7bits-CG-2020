@@ -1,16 +1,22 @@
 #include "Tools/ReaderStruct.h"
 
-bool ReaderStruct::SetStruct(FILE* file_struct, const int x, const int y) {
+ReaderStruct::ReaderStruct(const int x, const int y) {
+  info.x_top = x;
+  info.y_top = y;
+  info.x_bot = x;
+  info.y_bot = y;
+}
+
+bool ReaderStruct::SetStruct(FILE* file_struct) {
   if (file_struct) {
     // TODO: check file version
     file = file_struct;
 
-    fread(&info.x_bot, sizeof(int), 1, file);
-    fread(&info.y_bot, sizeof(int), 1, file);
-    info.x_top = x;
-    info.y_top = y;
-    info.x_bot += x;
-    info.y_bot += y;
+    struct_info temp(0, 0, 0, 0);
+    fread(&temp.x_bot, sizeof(int), 1, file);
+    fread(&temp.y_bot, sizeof(int), 1, file);
+    info.x_bot += temp.x_bot;
+    info.y_bot += temp.y_bot;
 
     return true;
   }

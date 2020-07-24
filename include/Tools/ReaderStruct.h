@@ -20,14 +20,16 @@ class IReaderStruct {
  public:
   IReaderStruct() : file(nullptr), info(0, 0, 0, 0) {}
 
-  virtual bool SetStruct(FILE* file_struct, const int x, const int y) = 0;
+  virtual bool SetStruct(FILE* file_struct) = 0;
   virtual struct_info GetInfo() const = 0;
   virtual int GetNextEntityType() const = 0;
 };
 
 class ReaderStruct : protected IReaderStruct {
  public:
-  bool SetStruct(FILE* file_struct, const int x, const int y);
+  ReaderStruct(const int x, const int y);
+
+  bool SetStruct(FILE* file_struct);
   struct_info GetInfo() const;
   int GetNextEntityType() const;
 };
