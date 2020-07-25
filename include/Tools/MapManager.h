@@ -29,6 +29,7 @@ struct entity_ptr {
 class MapManager {
  public:
   std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>> entities;
+  bool level_exit = false;
 
   int size_x = terminal_state(TK_WIDTH);
   int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
@@ -51,4 +52,6 @@ class MapManager {
   Position GlobalToLocal(const Position *global_pos) const;
 
   entity_ptr GetEntity(const chunk_coords_t chunk_coords, const Position local_pos) const;
+
+  void LevelExit();
 };

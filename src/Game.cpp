@@ -19,8 +19,12 @@ void Game::Run() {
 
   while (true) {
     if (Input()) break;
-    Update();
-    Render();
+    if (!map_manager.level_exit) {
+      Update();
+      Render();
+    } else {
+      UpdateLevelExit();
+    }
   }
 }
 
@@ -28,7 +32,11 @@ int Game::Input() {
   if (terminal_has_input()) {
     int key = terminal_read();
     if (key == TK_CLOSE) return 1;
-    player_control.Update(key);
+
+    if (!map_manager.level_exit)
+      player_control.Update(key);
+    else
+      return InputLevelExit(key);
   }
   return 0;
 }
@@ -37,4 +45,11 @@ void Game::Update() {}
 void Game::Render() {
   screen.Update();
   screen.UpdateGUI();
+}
+
+int Game::InputLevelExit(const int key) {
+  return key == TK_ENTER;
+}
+void Game::UpdateLevelExit() {
+  screen.UpdateLevelExit();
 }

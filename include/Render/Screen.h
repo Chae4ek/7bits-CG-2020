@@ -14,8 +14,9 @@ class Screen {
   Screen(const MapManager *map_manager, const Entity *player);
 
   void Update();
-
   void UpdateGUI();
+
+  void UpdateLevelExit();
 
   inline void Print(int x, int y, const Sprite *sprite);
   template<class... Args>

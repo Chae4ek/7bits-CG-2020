@@ -17,8 +17,8 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
       bool generate = true;
 
       if (structure_type < 0) {
-        std::string struct_path = "./Structures/" + std::to_string(structure_type);
-        file = fopen(struct_path.c_str(), "r");
+        std::string struct_path = "./Structures/struct" + std::to_string(structure_type);
+        file = fopen(struct_path.c_str(), "rb");
         generate = reader.SetStruct(file);
       }
       struct_info info = reader.GetInfo();
@@ -63,12 +63,18 @@ void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, 
       map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)),
                                                      Sprite(TEXTURE_COIN, COLOR_COIN)));
       break;
+    case TYPE_EXIT:
+      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_EXIT), map_manager->GlobalToLocal(Position(x, y)),
+                                                     Sprite(TEXTURE_EXIT, COLOR_EXIT)));
+      break;
     default:
       break;
   }
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
+  if (!x && !y) return TYPE_NULL;
+
   double noise = PerlinNoise(x / smooth, y / smooth);
   Srand(seed, x * map_manager->size_x, y * map_manager->size_y);
 
@@ -79,8 +85,10 @@ int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int 
 
   if (Random() % (map_manager->size_x * map_manager->size_y / coin_chance) == 0) return TYPE_COIN;
 
-  if (Random() % (map_manager->size_x * map_manager->size_y / structures_chance) == 0)
+  // TODO: replace to dictionary?
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / structures_chance) == 0)
     return -Random() % structures_count - 1;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / exit_chance) == 0) return -2;
 
   return TYPE_NULL;
 }

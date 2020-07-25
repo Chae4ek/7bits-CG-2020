@@ -17,9 +17,10 @@ class Generate {
   const double sharp = 0.009;
 
   const int coin_chance = 4;
-  const int structures_chance = 3;
+  const double structures_chance = 3;
   // TODO: delete this later
   const int structures_count = 1;
+  const double exit_chance = 0.3;
 
   explicit Generate(MapManager *map_manager);
 
