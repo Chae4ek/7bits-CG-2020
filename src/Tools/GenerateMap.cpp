@@ -10,33 +10,43 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
 
   for (int x = 0; x < map_manager->size_x; ++x) {
     for (int y = 0; y < map_manager->size_y; ++y) {
-      auto info = std::find_if(temp_structures.begin(), temp_structures.end(), [x, y](struct_info i) {
-        return i.x_top <= x && x <= i.x_bot && i.y_top <= y && y <= i.y_bot;
-      });
-      if (info != temp_structures.end()) {
-        y = info->y_bot;  // for faster
-        if (info->x_bot == x && info->y_bot == y) temp_structures.erase(info);
-        continue;
+      int structure_type = GetStructureType(chunk_global_pos, x + chunk_global_pos.first, y + chunk_global_pos.second);
+
+      FILE* file = nullptr;
+      ReaderStruct reader(x, y);
+      bool generate = true;
+
+      if (structure_type < 0) {
+        std::string struct_path = "./Structures/struct" + std::to_string(structure_type);
+        file = fopen(struct_path.c_str(), "rb");
+        generate = reader.SetStruct(file);
+      }
+      struct_info info = reader.GetInfo();
+
+      if (info.x_bot < map_manager->size_x && info.y_bot < map_manager->size_y) {
+        auto info_it = std::find_if(temp_structures.begin(), temp_structures.end(), [info](struct_info i) {
+          // checking intersection of "info" and "i" structures
+          return info.x_top <= i.x_bot && info.y_top <= i.y_bot && info.x_bot >= i.x_top && info.y_bot >= i.y_top;
+        });
+        if (info_it != temp_structures.end()) {
+          y = info_it->y_bot;  // for speed up
+          if (info_it->x_bot == x) temp_structures.erase(info_it);
+        } else {
+          // if none intersection
+          if (generate) {
+            if (info.x_top == info.x_bot && info.y_top == info.y_bot) {
+              CreateEntity(structure_type, chunk_coords, info.x_top, info.y_top);
+            } else {
+              if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for speed up
+              for (int i = info.x_top; i <= info.x_bot; ++i)
+                for (int j = info.y_top; j <= info.y_bot; ++j)
+                  CreateEntity(reader.GetNextEntityType(), chunk_coords, i, j);
+            }
+          }
+        }
       }
 
-      int structure = GetStructureType(chunk_global_pos, x + chunk_global_pos.first, y + chunk_global_pos.second);
-      std::string struct_path = "./Structures/" + std::to_string(structure);
-      FILE* file = fopen(struct_path.c_str(), "r");
-
-      if (!file) continue;
-
-      ReaderStruct reader;
-      reader.SetStruct(file);
-      bool generate = reader.SetGenerate(x, y, map_manager->size_x, map_manager->size_y);
-
-      if (generate) {
-        struct_info info = reader.GetInfo();
-        if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for faster
-        for (int i = info.x_top; i <= info.x_bot; ++i)
-          for (int j = info.y_top; j <= info.y_bot; ++j) CreateEntity(reader.GetNextEntityType(), chunk_coords, i, j);
-      }
-
-      fclose(file);
+      if (file) fclose(file);
     }
   }
 }
@@ -53,12 +63,18 @@ void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, 
       map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)),
                                                      Sprite(TEXTURE_COIN, COLOR_COIN)));
       break;
+    case TYPE_EXIT:
+      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_EXIT), map_manager->GlobalToLocal(Position(x, y)),
+                                                     Sprite(TEXTURE_EXIT, COLOR_EXIT)));
+      break;
     default:
       break;
   }
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
+  if (!x && !y) return TYPE_NULL;
+
   double noise = PerlinNoise(x / smooth, y / smooth);
   Srand(seed, x * map_manager->size_x, y * map_manager->size_y);
 
@@ -69,8 +85,10 @@ int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int 
 
   if (Random() % (map_manager->size_x * map_manager->size_y / coin_chance) == 0) return TYPE_COIN;
 
-  if (Random() % (map_manager->size_x * map_manager->size_y / structures_chance) == 0)
+  // TODO: replace to dictionary?
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / structures_chance) == 0)
     return -Random() % structures_count - 1;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / exit_chance) == 0) return -2;
 
   return TYPE_NULL;
 }

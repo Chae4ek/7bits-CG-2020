@@ -9,10 +9,10 @@
 #include "Tools/ReaderStruct.h"
 
 int main() {
-  std::cout << "Structure name: ";
+  std::cout << "Structure number: ";
   std::string name;
   getline(std::cin, name);
-  std::string struct_path = "./Structures/" + name;
+  std::string struct_path = "./Structures/struct" + name;
 
   terminal_open();
 
@@ -28,9 +28,10 @@ int main() {
   }
 
   // TODO: replace with expandable structure (dictionary?)
-  const int max = 4;
-  Sprite entities[4] = {Sprite('x', _COLOR_RED), Sprite(TEXTURE_PLAYER, COLOR_PLAYER), Sprite(TEXTURE_COIN, COLOR_COIN),
-                        Sprite(TEXTURE_WALL, COLOR_WALL)};
+  const int max = 5;
+  Sprite entities[max] = {Sprite('x', _COLOR_RED), Sprite(TEXTURE_PLAYER, COLOR_PLAYER),
+                          Sprite(TEXTURE_COIN, COLOR_COIN), Sprite(TEXTURE_WALL, COLOR_WALL),
+                          Sprite(TEXTURE_EXIT, COLOR_EXIT)};
 
   int current_type = 0;
   int x = 0;
@@ -41,18 +42,17 @@ int main() {
   int x_bot;
   int y_bot;
 
-  FILE *file = fopen(struct_path.c_str(), "r");
+  FILE *file = fopen(struct_path.c_str(), "rb");
 
-  ReaderStruct reader;
-  reader.SetStruct(file);
-  bool generate = reader.SetGenerate(0, 0, WIDTH, HEIGHT);
+  ReaderStruct reader(0, 0);
+  bool generate = reader.SetStruct(file);
   struct_info info = reader.GetInfo();
 
   if (generate) {
     for (; info.x_top <= info.x_bot; ++info.x_top)
       for (int y = info.y_top; y <= info.y_bot; ++y) structure[info.x_top][y] = reader.GetNextEntityType();
   }
-  fclose(file);
+  if (file) fclose(file);
 
   int set = 0;
 
@@ -123,11 +123,11 @@ int main() {
 
   terminal_close();
 
-  std::cout << "Save as: ";
+  std::cout << "Save as (struct number < 0): ";
   getline(std::cin, name);
-  struct_path = "./Structures/" + name;
+  struct_path = "./Structures/struct" + name;
 
-  FILE *f = fopen(struct_path.c_str(), "w");
+  FILE *f = fopen(struct_path.c_str(), "wb");
   fwrite(&size_x, sizeof(int), 1, f);
   fwrite(&size_y, sizeof(int), 1, f);
 

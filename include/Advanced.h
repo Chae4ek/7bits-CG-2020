@@ -21,14 +21,17 @@ constexpr int TYPE_NULL = 0;
 constexpr int TYPE_PLAYER = 1;
 constexpr int TYPE_COIN = 2;
 constexpr int TYPE_WALL = 3;
+constexpr int TYPE_EXIT = 4;
 
 constexpr char TEXTURE_PLAYER = '@';
 constexpr char TEXTURE_COIN = '$';
 constexpr char TEXTURE_WALL = '#';
+constexpr char TEXTURE_EXIT = '>';
 
 constexpr color_t COLOR_PLAYER = _COLOR_WHITE;
 constexpr color_t COLOR_COIN = _COLOR_YELLOW;
 constexpr color_t COLOR_WALL = _COLOR_GREY;
+constexpr color_t COLOR_EXIT = _COLOR_AQUA;
 
 static uint32_t _SEED_RANDOM = 1;
 

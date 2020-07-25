@@ -7,7 +7,7 @@ PlayerControl::PlayerControl(Entity *player, MapManager *map_manager)
       controls(player->Get<Controls>()),
       game_stats(player->Get<GameStats>()) {}
 
-void PlayerControl::Update(int key) {
+void PlayerControl::Update(const int key) {
   if (key == controls->KEY_LEFT)
     MovePlayer(map_manager, player, Position(position->pos_x - 1, position->pos_y)).Execute();
   if (key == controls->KEY_RIGHT)
