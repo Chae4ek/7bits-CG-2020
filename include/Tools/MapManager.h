@@ -31,8 +31,8 @@ class MapManager {
   std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>> entities;
   bool level_exit = false;
 
-  int size_x = terminal_state(TK_WIDTH);
-  int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
+  const int size_x = terminal_state(TK_WIDTH);
+  const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
 
   const unsigned int seed;
 

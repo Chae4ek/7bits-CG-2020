@@ -1,8 +1,8 @@
 #include "Game.h"
 
 Game::Game(const unsigned int seed)
-    : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite(TEXTURE_PLAYER, COLOR_PLAYER),
-             GameStats(), Type(0)),
+    : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), PREFABS.at(TYPE_PLAYER), GameStats(),
+             Type(0)),
       map_manager(seed, player.Get<Position>()),
       player_control(&player, &map_manager),
       screen(&map_manager, &player) {}

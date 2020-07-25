@@ -4,8 +4,6 @@
 #include <string>
 
 #include "Advanced.h"
-#include "ECS/Components.h"
-#include "ECS/Entity.h"
 #include "Tools/ReaderStruct.h"
 
 int main() {
@@ -26,12 +24,6 @@ int main() {
     structure[i] = new int[HEIGHT];
     for (int j = 0; j < HEIGHT; ++j) structure[i][j] = TYPE_NULL;
   }
-
-  // TODO: replace with expandable structure (dictionary?)
-  const int max = 5;
-  Sprite entities[max] = {Sprite('x', _COLOR_RED), Sprite(TEXTURE_PLAYER, COLOR_PLAYER),
-                          Sprite(TEXTURE_COIN, COLOR_COIN), Sprite(TEXTURE_WALL, COLOR_WALL),
-                          Sprite(TEXTURE_EXIT, COLOR_EXIT)};
 
   int current_type = 0;
   int x = 0;
@@ -63,19 +55,19 @@ int main() {
     for (int x = 0; x < WIDTH; ++x) {
       for (int y = 0; y < HEIGHT; ++y) {
         if (structure[x][y] != TYPE_NULL) {
-          terminal_color(entities[structure[x][y]].color);
-          terminal_put(x, y, entities[structure[x][y]].texture);
+          terminal_color(PREFABS.at(structure[x][y]).color);
+          terminal_put(x, y, PREFABS.at(structure[x][y]).texture);
         }
       }
       terminal_color(_COLOR_BLUE);
-      terminal_put(x, HEIGHT, TEXTURE_WALL);
+      terminal_put(x, HEIGHT, PREFABS.at(TYPE_WALL).texture);
     }
     terminal_color(_COLOR_YELLOW);
     terminal_printf(1, HEIGHT + 2, "[[WHEEL]] listing types");
     terminal_printf(1, HEIGHT + 4, "[[LCM/RCM]] set/delete type");
 
-    terminal_color(entities[current_type].color);
-    terminal_put(x, y, entities[current_type].texture);
+    terminal_color(PREFABS.at(current_type).color);
+    terminal_put(x, y, PREFABS.at(current_type).texture);
 
     if (terminal_has_input()) {
       int key = terminal_read();
@@ -95,7 +87,7 @@ int main() {
 
         current_type += amount;
         if (current_type < 0) current_type = 0;
-        if (current_type >= max) current_type = max - 1;
+        if (current_type >= PREFABS.size()) current_type = PREFABS.size() - 1;
       }
     }
     if (set == 1)

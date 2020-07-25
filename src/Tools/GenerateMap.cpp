@@ -50,26 +50,10 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
     }
   }
 }
-// TODO: replace to prefabs container
 void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y) {
-  switch (type) {
-    case TYPE_NULL:
-      break;
-    case TYPE_WALL:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_WALL), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_WALL, COLOR_WALL)));
-      break;
-    case TYPE_COIN:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_COIN, COLOR_COIN)));
-      break;
-    case TYPE_EXIT:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_EXIT), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_EXIT, COLOR_EXIT)));
-      break;
-    default:
-      break;
-  }
+  if (type != TYPE_NULL)
+    map_manager->CreateEntity(chunk_coords,
+                              Entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type)));
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
