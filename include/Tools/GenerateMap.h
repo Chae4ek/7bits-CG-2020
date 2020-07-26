@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "MapManager.h"
@@ -10,13 +11,11 @@ class Generate {
   MapManager *map_manager;
   std::vector<struct_info> temp_structures;
 
-  const unsigned int seed;
-
   const double smooth = 60;
   const double threshold = 0.125;
   const double sharp = 0.009;
 
-  const int coin_chance = 4;
+  const double coin_chance = 4;
   const double structures_chance = 3;
   // TODO: delete this later
   const int structures_count = 1;
@@ -24,7 +23,7 @@ class Generate {
 
   explicit Generate(MapManager *map_manager);
 
-  void TryGenerateChunk(const chunk_coords_t chunk_coords);
+  void TryGenerateChunk(const chunk_coords_t chunk_coords, std::string level = "");
   void CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y);
 
   // empty = 0, single-block > 0, other < 0

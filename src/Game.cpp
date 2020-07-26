@@ -15,7 +15,7 @@ void Game::Run() {
   // and it can create bugs
 
   // it fully fixed now
-  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()), "-hub");
 
   while (true) {
     if (Input()) break;
@@ -36,7 +36,7 @@ int Game::Input() {
     if (!map_manager.level_exit)
       player_control.Update(key);
     else
-      return InputLevelExit(key);
+      InputLevelExit(key);
   }
   return 0;
 }
@@ -47,8 +47,11 @@ void Game::Render() {
   screen.UpdateGUI();
 }
 
-int Game::InputLevelExit(const int key) {
-  return key == TK_ENTER;
+void Game::InputLevelExit(const int key) {
+  if (key == TK_ENTER) {
+    map_manager.level_exit = false;
+    Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+  }
 }
 void Game::UpdateLevelExit() {
   screen.UpdateLevelExit();

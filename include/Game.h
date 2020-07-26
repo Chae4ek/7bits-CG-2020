@@ -21,6 +21,6 @@ class Game {
   void Update();
   void Render();
 
-  int InputLevelExit(const int key);
+  void InputLevelExit(const int key);
   void UpdateLevelExit();
 };

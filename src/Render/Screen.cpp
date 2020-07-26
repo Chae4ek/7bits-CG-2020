@@ -10,9 +10,6 @@ void Screen::Update() {
   // TODO: delete and optimize this later
   terminal_clear();
 
-  Position player_local_pos = map_manager->GlobalToLocal(player_pos);
-  Print(player_local_pos.pos_x, player_local_pos.pos_y, player_sprite);
-
   chunk_coords_t current_chunk = map_manager->GetChunkCoords(player_pos);
   if (map_manager->ChunkIsEmpty(current_chunk)) return;
 
@@ -22,6 +19,9 @@ void Screen::Update() {
     Print((*entity)->Get<Position>()->pos_x, (*entity)->Get<Position>()->pos_y, (*entity)->Get<Sprite>());
     ++entity;
   }
+
+  Position player_local_pos = map_manager->GlobalToLocal(player_pos);
+  Print(player_local_pos.pos_x, player_local_pos.pos_y, player_sprite);
 }
 void Screen::UpdateGUI() {
   terminal_color(_COLOR_BLUE);

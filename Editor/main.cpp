@@ -15,6 +15,7 @@ int main() {
   terminal_open();
 
   terminal_set("window: title=Game, size=80x30; input: mouse-cursor=false, filter=[keyboard, mouse+]");
+  terminal_composition(TK_ON);
 
   const int WIDTH = terminal_state(TK_WIDTH);
   const int HEIGHT = terminal_state(TK_HEIGHT) - 6;

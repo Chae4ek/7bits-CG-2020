@@ -34,11 +34,11 @@ class MapManager {
   const int size_x = terminal_state(TK_WIDTH);
   const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
 
-  const unsigned int seed;
+  unsigned int seed;
 
-  const Position *player;
+  Position *player;
 
-  MapManager(const unsigned int seed, const Position *player);
+  MapManager(const unsigned int seed, Position *player);
 
   void CreateEntity(chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
