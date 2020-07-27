@@ -4,6 +4,7 @@ Generate::Generate(MapManager* map_manager) : map_manager(map_manager) {}
 
 void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
   if (!map_manager->ChunkIsEmpty(chunk_coords)) return;
+  map_manager->entities[chunk_coords].reserve(0);
 
   const chunk_coords_t chunk_global_pos =
       std::make_pair(chunk_coords.first * map_manager->size_x, chunk_coords.second * map_manager->size_y);
@@ -57,19 +58,26 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
 }
 void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_coords_t chunk_coords, int x, int y) {
   if (type == TYPE_PLAYER) {
-    map_manager->player->pos_x = x;
-    map_manager->player->pos_y = y;
+    if (map_manager->level_last_pos.find(map_manager->level_id) == map_manager->level_last_pos.end()) {
+      map_manager->player->pos_x = x;
+      map_manager->player->pos_y = y;
+    }
   } else if (type != TYPE_NULL) {
     Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type));
 
-    if (type == TYPE_EXIT) entity.Add(LevelExit(reader->GetNext()));
+    if (type == TYPE_EXIT) {
+      int level = reader->GetNext();
+      if (map_manager->level_id > 0) level += map_manager->level_id;
+      if (!level) --level;
+      entity.Add(LevelExit(level));
+    }
 
     map_manager->CreateEntity(chunk_coords, std::move(entity));
   }
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
-  if (!x && !y) return TYPE_NULL;
+  if (!x && !y) return -104781600;
 
   double noise = PerlinNoise(x / smooth, y / smooth);
   Srand(map_manager->seed, x * map_manager->size_x, y * map_manager->size_y);

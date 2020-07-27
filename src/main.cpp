@@ -5,7 +5,7 @@ int main() {
   terminal_refresh();
 
   // TODO: resizeable window with resize object sprites
-  terminal_set("window: title=Game, size=80x30");
+  terminal_set("window: title=Game, size=80x30; input: mouse-cursor=false");
   terminal_composition(TK_ON);
 
   Game game(0);
