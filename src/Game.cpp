@@ -5,7 +5,9 @@ Game::Game(const unsigned int seed)
              Type(0)),
       map_manager(seed, player.Get<Position>()),
       player_control(&player, &map_manager),
-      screen(&map_manager, &player) {}
+      game_screen(&map_manager, &player),
+      gui_screen(&map_manager, player.Get<GameStats>()),
+      level_exit_screen(player.Get<GameStats>()) {}
 
 void Game::Run() {
   // TODO: delete dynamic generation?
@@ -43,8 +45,8 @@ int Game::Input() {
 // TODO: this something
 void Game::Update() {}
 void Game::Render() {
-  screen.Update();
-  screen.UpdateGUI();
+  game_screen.Update();
+  gui_screen.Update();
 }
 
 void Game::InputLevelExit(const int key) {
@@ -54,5 +56,5 @@ void Game::InputLevelExit(const int key) {
   }
 }
 void Game::UpdateLevelExit() {
-  screen.UpdateLevelExit();
+  level_exit_screen.Update();
 }
