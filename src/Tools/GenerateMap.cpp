@@ -4,7 +4,7 @@ Generate::Generate(MapManager* map_manager) : map_manager(map_manager) {}
 
 void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
   if (!map_manager->ChunkIsEmpty(chunk_coords)) return;
-  map_manager->entities[chunk_coords].reserve(0);
+  map_manager->entities[map_manager->level_id][chunk_coords].reserve(0);
 
   const chunk_coords_t chunk_global_pos =
       std::make_pair(chunk_coords.first * map_manager->size_x, chunk_coords.second * map_manager->size_y);
@@ -58,7 +58,7 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
 }
 void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_coords_t chunk_coords, int x, int y) {
   if (type == TYPE_PLAYER) {
-    if (map_manager->level_last_pos.find(map_manager->level_id) == map_manager->level_last_pos.end()) {
+    if (!map_manager->level_last_pos.count(map_manager->level_id)) {
       map_manager->player->pos_x = x;
       map_manager->player->pos_y = y;
     }

@@ -28,10 +28,10 @@ struct entity_ptr {
 
 class MapManager {
  public:
-  std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>> entities;
+  std::map<int, std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>>> entities;
+  std::map<int, std::unique_ptr<Position>> level_last_pos;
   bool level_exit = false;
   int level_id = -1;
-  std::map<int, std::unique_ptr<Position>> level_last_pos;
 
   const int size_x = terminal_state(TK_WIDTH);
   const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like GUIScreen system parameters
