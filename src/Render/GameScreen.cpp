@@ -10,8 +10,8 @@ void GameScreen::Update() const {
   chunk_coords_t current_chunk = map_manager->GetChunkCoords(player_pos);
 
   if (!map_manager->ChunkIsEmpty(current_chunk)) {
-    entity_t entity = map_manager->entities.at(current_chunk).begin();
-    entity_t end = map_manager->entities.at(current_chunk).end();
+    entity_t entity = map_manager->entities.at(map_manager->level_id).at(current_chunk).begin();
+    entity_t end = map_manager->entities.at(map_manager->level_id).at(current_chunk).end();
     while (entity != end) {
       Print((*entity)->Get<Position>()->pos_x, (*entity)->Get<Position>()->pos_y, (*entity)->Get<Sprite>());
       ++entity;
