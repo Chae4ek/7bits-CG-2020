@@ -2,7 +2,7 @@
 
 Generate::Generate(MapManager* map_manager) : map_manager(map_manager) {}
 
-void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords, std::string level) {
+void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
   if (!map_manager->ChunkIsEmpty(chunk_coords)) return;
 
   const chunk_coords_t chunk_global_pos =
@@ -15,15 +15,14 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords, std::string l
       FILE* file = nullptr;
       ReaderStruct reader(x, y);
       bool generate = true;
+      std::string struct_path = "";
 
-      if (structure_type < 0 || level != "") {
-        std::string struct_path = "./Structures/struct";
-        if (level == "") {
-          struct_path += std::to_string(structure_type);
-        } else {
-          struct_path += level;
-          level = "";
-        }
+      if (map_manager->level_id < 0)
+        struct_path = "./Structures/hub" + std::to_string(map_manager->level_id);
+      else if (structure_type < 0)
+        struct_path = "./Structures/struct" + std::to_string(structure_type);
+
+      if (struct_path != "") {
         file = fopen(struct_path.c_str(), "rb");
         generate = reader.SetStruct(file);
       }
@@ -41,12 +40,12 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords, std::string l
           // if none intersection
           if (generate) {
             if (info.x_top == info.x_bot && info.y_top == info.y_bot) {
-              CreateEntity(structure_type, chunk_coords, info.x_top, info.y_top);
+              CreateEntity(&reader, structure_type, chunk_coords, info.x_top, info.y_top);
             } else {
               if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for speed up
               for (int i = info.x_top; i <= info.x_bot; ++i)
                 for (int j = info.y_top; j <= info.y_bot; ++j)
-                  CreateEntity(reader.GetNextEntityType(), chunk_coords, i, j);
+                  CreateEntity(&reader, reader.GetNext(), chunk_coords, i, j);
             }
           }
         }
@@ -56,14 +55,16 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords, std::string l
     }
   }
 }
-void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y) {
+void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_coords_t chunk_coords, int x, int y) {
   if (type == TYPE_PLAYER) {
     map_manager->player->pos_x = x;
     map_manager->player->pos_y = y;
-  } else {
-    if (type != TYPE_NULL)
-      map_manager->CreateEntity(chunk_coords,
-                                Entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type)));
+  } else if (type != TYPE_NULL) {
+    Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type));
+
+    if (type == TYPE_EXIT) entity.Add(LevelExit(reader->GetNext()));
+
+    map_manager->CreateEntity(chunk_coords, std::move(entity));
   }
 }
 

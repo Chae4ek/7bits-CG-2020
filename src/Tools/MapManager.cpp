@@ -43,10 +43,14 @@ entity_ptr MapManager::GetEntity(const chunk_coords_t chunk_coords, const Positi
   return entity_ptr(chunk_coords, entity, entity != entities.at(chunk_coords).end());
 }
 
-void MapManager::LevelExit() {
+void MapManager::GoToLevel(const int level) {
   entities.clear();
+  level_id = level;
   level_exit = true;
-  player->pos_x = 0;
-  player->pos_y = 0;
-  ++seed;
+
+  if (level > 0) {
+    player->pos_x = 0;
+    player->pos_y = 0;
+    ++seed;
+  }
 }

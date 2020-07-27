@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
 #include "MapManager.h"
@@ -23,8 +22,8 @@ class Generate {
 
   explicit Generate(MapManager *map_manager);
 
-  void TryGenerateChunk(const chunk_coords_t chunk_coords, std::string level = "");
-  void CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y);
+  void TryGenerateChunk(const chunk_coords_t chunk_coords);
+  void CreateEntity(const ReaderStruct *reader, const int type, chunk_coords_t chunk_coords, int x, int y);
 
   // empty = 0, single-block > 0, other < 0
   int GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const;

@@ -25,8 +25,9 @@ bool ReaderStruct::SetStruct(FILE* file_struct) {
 struct_info ReaderStruct::GetInfo() const {
   return info;
 }
-int ReaderStruct::GetNextEntityType() const {
-  int type;
-  fread(&type, sizeof(int), 1, file);
-  return type;
+
+int ReaderStruct::GetNext() const {
+  int temp;
+  fread(&temp, sizeof(int), 1, file);
+  return temp;
 }

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cstdio>
+#include <string>
+
+#include "ECS/Components.h"
 
 struct struct_info {
  public:
@@ -22,7 +25,8 @@ class IReaderStruct {
 
   virtual bool SetStruct(FILE* file_struct) = 0;
   virtual struct_info GetInfo() const = 0;
-  virtual int GetNextEntityType() const = 0;
+
+  virtual int GetNext() const = 0;
 };
 
 class ReaderStruct : protected IReaderStruct {
@@ -31,5 +35,6 @@ class ReaderStruct : protected IReaderStruct {
 
   bool SetStruct(FILE* file_struct);
   struct_info GetInfo() const;
-  int GetNextEntityType() const;
+
+  int GetNext() const;
 };

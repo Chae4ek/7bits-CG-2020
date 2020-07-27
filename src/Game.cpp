@@ -15,7 +15,7 @@ void Game::Run() {
   // and it can create bugs
 
   // it fully fixed now
-  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()), "-hub");
+  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
 
   while (true) {
     if (Input()) break;

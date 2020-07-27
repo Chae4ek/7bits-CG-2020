@@ -1,5 +1,7 @@
 #pragma once
 
+#include <BearLibTerminal.h>
+
 #include "IComponent.h"
 
 class Position : public IComponent {
@@ -41,4 +43,11 @@ class Type : public IComponent {
   const int type;
 
   explicit Type(const int type) : type(type) {}
+};
+
+class LevelExit : public IComponent {
+ public:
+  const int level;
+
+  explicit LevelExit(const int level) : level(level) {}
 };

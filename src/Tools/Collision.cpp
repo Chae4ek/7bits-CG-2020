@@ -18,7 +18,7 @@ void Collision::CollidePlayer(entity_ptr entity) {
       map_manager->Destroy(entity);
       break;
     case TYPE_EXIT:
-      map_manager->LevelExit();
+      map_manager->GoToLevel((*entity.iter)->Get<LevelExit>()->level);
       break;
     default:
       break;
