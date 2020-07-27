@@ -4,19 +4,18 @@
 #include <string>
 
 #include "Advanced.h"
-#include "ECS/Components.h"
-#include "ECS/Entity.h"
 #include "Tools/ReaderStruct.h"
 
 int main() {
-  std::cout << "Structure number: ";
+  std::cout << std::endl << "Structure name: ";
   std::string name;
   getline(std::cin, name);
-  std::string struct_path = "./Structures/struct" + name;
+  std::string struct_path = "./Structures/" + name;
 
   terminal_open();
 
-  terminal_set("window: title=Game, size=80x30; input: mouse-cursor=false, filter=[keyboard, mouse+]");
+  terminal_set("window: title=Game, size=80x30; input: mouse-cursor=true, filter=[keyboard, mouse+]");
+  terminal_composition(TK_ON);
 
   const int WIDTH = terminal_state(TK_WIDTH);
   const int HEIGHT = terminal_state(TK_HEIGHT) - 6;
@@ -27,11 +26,7 @@ int main() {
     for (int j = 0; j < HEIGHT; ++j) structure[i][j] = TYPE_NULL;
   }
 
-  // TODO: replace with expandable structure (dictionary?)
-  const int max = 5;
-  Sprite entities[max] = {Sprite('x', _COLOR_RED), Sprite(TEXTURE_PLAYER, COLOR_PLAYER),
-                          Sprite(TEXTURE_COIN, COLOR_COIN), Sprite(TEXTURE_WALL, COLOR_WALL),
-                          Sprite(TEXTURE_EXIT, COLOR_EXIT)};
+  std::map<std::pair<int, int>, int> level_exit;
 
   int current_type = 0;
   int x = 0;
@@ -43,14 +38,18 @@ int main() {
   int y_bot;
 
   FILE *file = fopen(struct_path.c_str(), "rb");
-
   ReaderStruct reader(0, 0);
   bool generate = reader.SetStruct(file);
   struct_info info = reader.GetInfo();
 
   if (generate) {
     for (; info.x_top <= info.x_bot; ++info.x_top)
-      for (int y = info.y_top; y <= info.y_bot; ++y) structure[info.x_top][y] = reader.GetNextEntityType();
+      for (int y = info.y_top; y <= info.y_bot; ++y) {
+        int type = reader.GetNext();
+        structure[info.x_top][y] = type;
+
+        if (type == TYPE_EXIT) level_exit[std::make_pair(info.x_top, y)] = reader.GetNext();
+      }
   }
   if (file) fclose(file);
 
@@ -63,19 +62,19 @@ int main() {
     for (int x = 0; x < WIDTH; ++x) {
       for (int y = 0; y < HEIGHT; ++y) {
         if (structure[x][y] != TYPE_NULL) {
-          terminal_color(entities[structure[x][y]].color);
-          terminal_put(x, y, entities[structure[x][y]].texture);
+          terminal_color(PREFABS.at(structure[x][y]).color);
+          terminal_put(x, y, PREFABS.at(structure[x][y]).texture);
         }
       }
       terminal_color(_COLOR_BLUE);
-      terminal_put(x, HEIGHT, TEXTURE_WALL);
+      terminal_put(x, HEIGHT, PREFABS.at(TYPE_WALL).texture);
     }
     terminal_color(_COLOR_YELLOW);
     terminal_printf(1, HEIGHT + 2, "[[WHEEL]] listing types");
     terminal_printf(1, HEIGHT + 4, "[[LCM/RCM]] set/delete type");
 
-    terminal_color(entities[current_type].color);
-    terminal_put(x, y, entities[current_type].texture);
+    terminal_color(PREFABS.at(current_type).color);
+    terminal_put(x, y, PREFABS.at(current_type).texture);
 
     if (terminal_has_input()) {
       int key = terminal_read();
@@ -95,12 +94,17 @@ int main() {
 
         current_type += amount;
         if (current_type < 0) current_type = 0;
-        if (current_type >= max) current_type = max - 1;
+        if (current_type >= PREFABS.size()) current_type = PREFABS.size() - 1;
       }
     }
-    if (set == 1)
+    if (set == 1) {
       structure[x][y] = current_type;
-    else if (set == -1)
+      if (current_type == TYPE_EXIT) {
+        std::cout << std::endl << "level id: ";
+        std::cin >> level_exit[std::make_pair(x, y)];
+        set = 0;
+      }
+    } else if (set == -1)
       structure[x][y] = 0;
   }
 
@@ -123,21 +127,28 @@ int main() {
 
   terminal_close();
 
-  std::cout << "Save as (struct number < 0): ";
-  getline(std::cin, name);
-  struct_path = "./Structures/struct" + name;
+  std::cout << std::endl << "Save as: ";
+  std::cin >> name;
+  struct_path = "./Structures/" + name;
 
   FILE *f = fopen(struct_path.c_str(), "wb");
   fwrite(&size_x, sizeof(int), 1, f);
   fwrite(&size_y, sizeof(int), 1, f);
 
   for (; x_top <= x_bot; ++x_top)
-    for (int y = y_top; y <= y_bot; ++y) fwrite(&structure[x_top][y], sizeof(int), 1, f);
+    for (int y = y_top; y <= y_bot; ++y) {
+      int type = structure[x_top][y];
+      fwrite(&type, sizeof(int), 1, f);
+
+      if (type == TYPE_EXIT) fwrite(&level_exit.at(std::make_pair(x_top, y)), sizeof(int), 1, f);
+    }
 
   fclose(f);
 
   for (int i = 0; i < WIDTH; ++i) delete[] structure[i];
   delete[] structure;
+
+  level_exit.clear();
 
   return 0;
 }

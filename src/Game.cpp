@@ -1,11 +1,13 @@
 #include "Game.h"
 
 Game::Game(const unsigned int seed)
-    : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), Sprite(TEXTURE_PLAYER, COLOR_PLAYER),
-             GameStats(), Type(0)),
+    : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), PREFABS.at(TYPE_PLAYER), GameStats(),
+             Type(0)),
       map_manager(seed, player.Get<Position>()),
       player_control(&player, &map_manager),
-      screen(&map_manager, &player) {}
+      game_screen(&map_manager, &player),
+      gui_screen(&map_manager, player.Get<GameStats>()),
+      level_exit_screen(player.Get<GameStats>()) {}
 
 void Game::Run() {
   // TODO: delete dynamic generation?
@@ -36,20 +38,23 @@ int Game::Input() {
     if (!map_manager.level_exit)
       player_control.Update(key);
     else
-      return InputLevelExit(key);
+      InputLevelExit(key);
   }
   return 0;
 }
 // TODO: this something
 void Game::Update() {}
 void Game::Render() {
-  screen.Update();
-  screen.UpdateGUI();
+  game_screen.Update();
+  gui_screen.Update();
 }
 
-int Game::InputLevelExit(const int key) {
-  return key == TK_ENTER;
+void Game::InputLevelExit(const int key) {
+  if (key == TK_ENTER) {
+    map_manager.level_exit = false;
+    Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+  }
 }
 void Game::UpdateLevelExit() {
-  screen.UpdateLevelExit();
+  level_exit_screen.Update();
 }

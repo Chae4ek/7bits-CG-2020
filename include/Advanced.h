@@ -2,7 +2,9 @@
 
 #include <BearLibTerminal.h>
 
-#include <utility>
+#include <map>
+
+#include "ECS/Components.h"
 
 constexpr color_t _COLOR_RED = 0xFFFF0000;
 constexpr color_t _COLOR_ORANGE = 0xFFFF7F00;
@@ -14,24 +16,17 @@ constexpr color_t _COLOR_PURPLE = 0xFFBF00FF;
 constexpr color_t _COLOR_WHITE = 0xFFFFFFFF;
 constexpr color_t _COLOR_GREY = 0xFF7F7F7F;
 
-// TODO: create dictionary for all
-// make prefabs for entities
-
 constexpr int TYPE_NULL = 0;
 constexpr int TYPE_PLAYER = 1;
 constexpr int TYPE_COIN = 2;
 constexpr int TYPE_WALL = 3;
 constexpr int TYPE_EXIT = 4;
 
-constexpr char TEXTURE_PLAYER = '@';
-constexpr char TEXTURE_COIN = '$';
-constexpr char TEXTURE_WALL = '#';
-constexpr char TEXTURE_EXIT = '>';
-
-constexpr color_t COLOR_PLAYER = _COLOR_WHITE;
-constexpr color_t COLOR_COIN = _COLOR_YELLOW;
-constexpr color_t COLOR_WALL = _COLOR_GREY;
-constexpr color_t COLOR_EXIT = _COLOR_AQUA;
+const std::map<int, Sprite> PREFABS = {{TYPE_NULL, Sprite('x', _COLOR_RED)},
+                                       {TYPE_PLAYER, Sprite('@', _COLOR_WHITE)},
+                                       {TYPE_COIN, Sprite('$', _COLOR_YELLOW)},
+                                       {TYPE_WALL, Sprite('#', _COLOR_GREY)},
+                                       {TYPE_EXIT, Sprite('>', _COLOR_AQUA)}};
 
 static uint32_t _SEED_RANDOM = 1;
 

@@ -1,9 +1,10 @@
 #include "Tools/GenerateMap.h"
 
-Generate::Generate(MapManager* map_manager) : map_manager(map_manager), seed(map_manager->seed) {}
+Generate::Generate(MapManager* map_manager) : map_manager(map_manager) {}
 
 void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
   if (!map_manager->ChunkIsEmpty(chunk_coords)) return;
+  map_manager->entities[chunk_coords].reserve(0);
 
   const chunk_coords_t chunk_global_pos =
       std::make_pair(chunk_coords.first * map_manager->size_x, chunk_coords.second * map_manager->size_y);
@@ -15,9 +16,14 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
       FILE* file = nullptr;
       ReaderStruct reader(x, y);
       bool generate = true;
+      std::string struct_path = "";
 
-      if (structure_type < 0) {
-        std::string struct_path = "./Structures/struct" + std::to_string(structure_type);
+      if (map_manager->level_id < 0)
+        struct_path = "./Structures/hub" + std::to_string(map_manager->level_id);
+      else if (structure_type < 0)
+        struct_path = "./Structures/struct" + std::to_string(structure_type);
+
+      if (struct_path != "") {
         file = fopen(struct_path.c_str(), "rb");
         generate = reader.SetStruct(file);
       }
@@ -35,12 +41,12 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
           // if none intersection
           if (generate) {
             if (info.x_top == info.x_bot && info.y_top == info.y_bot) {
-              CreateEntity(structure_type, chunk_coords, info.x_top, info.y_top);
+              CreateEntity(&reader, structure_type, chunk_coords, info.x_top, info.y_top);
             } else {
               if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for speed up
               for (int i = info.x_top; i <= info.x_bot; ++i)
                 for (int j = info.y_top; j <= info.y_bot; ++j)
-                  CreateEntity(reader.GetNextEntityType(), chunk_coords, i, j);
+                  CreateEntity(&reader, reader.GetNext(), chunk_coords, i, j);
             }
           }
         }
@@ -50,40 +56,38 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
     }
   }
 }
-// TODO: replace to prefabs container
-void Generate::CreateEntity(const int type, chunk_coords_t chunk_coords, int x, int y) {
-  switch (type) {
-    case TYPE_NULL:
-      break;
-    case TYPE_WALL:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_WALL), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_WALL, COLOR_WALL)));
-      break;
-    case TYPE_COIN:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_COIN), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_COIN, COLOR_COIN)));
-      break;
-    case TYPE_EXIT:
-      map_manager->CreateEntity(chunk_coords, Entity(Type(TYPE_EXIT), map_manager->GlobalToLocal(Position(x, y)),
-                                                     Sprite(TEXTURE_EXIT, COLOR_EXIT)));
-      break;
-    default:
-      break;
+void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_coords_t chunk_coords, int x, int y) {
+  if (type == TYPE_PLAYER) {
+    if (map_manager->level_last_pos.find(map_manager->level_id) == map_manager->level_last_pos.end()) {
+      map_manager->player->pos_x = x;
+      map_manager->player->pos_y = y;
+    }
+  } else if (type != TYPE_NULL) {
+    Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type));
+
+    if (type == TYPE_EXIT) {
+      int level = reader->GetNext();
+      if (map_manager->level_id > 0) level += map_manager->level_id;
+      if (!level) --level;
+      entity.Add(LevelExit(level));
+    }
+
+    map_manager->CreateEntity(chunk_coords, std::move(entity));
   }
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
-  if (!x && !y) return TYPE_NULL;
+  if (!x && !y) return -104781600;
 
   double noise = PerlinNoise(x / smooth, y / smooth);
-  Srand(seed, x * map_manager->size_x, y * map_manager->size_y);
+  Srand(map_manager->seed, x * map_manager->size_x, y * map_manager->size_y);
 
   if ((noise > threshold + sharp || Random() % 2) && ((noise > threshold - sharp && Random() % 2) || noise > threshold))
     return TYPE_WALL;
 
-  Srand(seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
+  Srand(map_manager->seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
 
-  if (Random() % (map_manager->size_x * map_manager->size_y / coin_chance) == 0) return TYPE_COIN;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / coin_chance) == 0) return TYPE_COIN;
 
   // TODO: replace to dictionary?
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / structures_chance) == 0)
@@ -114,7 +118,7 @@ double Generate::PerlinNoise(const double x, const double y) const {
   return lerp_xy;
 }
 double Generate::DotGradient(int rand_x, int rand_y, double x, double y) const {
-  Srand(seed, rand_x, rand_y);
+  Srand(map_manager->seed, rand_x, rand_y);
 
   int r = Random() % 4;
   x -= rand_x;

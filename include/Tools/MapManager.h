@@ -30,21 +30,22 @@ class MapManager {
  public:
   std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>> entities;
   bool level_exit = false;
+  int level_id = -1;
+  std::map<int, std::unique_ptr<Position>> level_last_pos;
 
-  int size_x = terminal_state(TK_WIDTH);
-  int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like Screen system parameters (stats GUI)
+  const int size_x = terminal_state(TK_WIDTH);
+  const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like GUIScreen system parameters
 
-  const unsigned int seed;
+  const unsigned int start_seed;
+  unsigned int seed;
 
-  const Position *player;
+  Position *player;
 
-  MapManager(const unsigned int seed, const Position *player);
+  MapManager(const unsigned int seed, Position *player);
 
   void CreateEntity(chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
 
-  // TODO: change this function
-  // empty chunks (on empty chunks) are generated with every update
   bool ChunkIsEmpty(const chunk_coords_t chunk_coords) const;
   chunk_coords_t GetChunkCoords(const Position *global_pos) const;
 
@@ -53,5 +54,5 @@ class MapManager {
 
   entity_ptr GetEntity(const chunk_coords_t chunk_coords, const Position local_pos) const;
 
-  void LevelExit();
+  void GoToLevel(const int level);
 };

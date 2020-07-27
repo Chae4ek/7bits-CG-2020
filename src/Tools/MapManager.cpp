@@ -1,6 +1,6 @@
 #include "Tools/MapManager.h"
 
-MapManager::MapManager(const unsigned int seed, const Position *player) : seed(seed), player(player) {}
+MapManager::MapManager(const unsigned int seed, Position *player) : start_seed(seed), seed(seed), player(player) {}
 
 void MapManager::CreateEntity(chunk_coords_t chunk_coords, Entity &&entity) {
   entities[chunk_coords].emplace_back(std::make_unique<Entity>(std::move(entity)));
@@ -43,7 +43,15 @@ entity_ptr MapManager::GetEntity(const chunk_coords_t chunk_coords, const Positi
   return entity_ptr(chunk_coords, entity, entity != entities.at(chunk_coords).end());
 }
 
-void MapManager::LevelExit() {
+void MapManager::GoToLevel(const int level) {
   entities.clear();
   level_exit = true;
+  level_id = level;
+
+  if (level_last_pos.find(level) != level_last_pos.end()) {
+    player->pos_x = level_last_pos.at(level)->pos_x;
+    player->pos_y = level_last_pos.at(level)->pos_y;
+  }
+
+  seed = start_seed + level;
 }

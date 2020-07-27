@@ -13,6 +13,9 @@ void MovePlayer::Execute() {
   Collision collision(map_manager, player);
 
   if (collision.ForMovePlayer(entity)) {
+    map_manager->level_last_pos[map_manager->level_id] =
+        std::make_unique<Position>(player->Get<Position>()->pos_x, player->Get<Position>()->pos_y);
+
     player->Get<Position>()->pos_x = new_pos.pos_x;
     player->Get<Position>()->pos_y = new_pos.pos_y;
 
