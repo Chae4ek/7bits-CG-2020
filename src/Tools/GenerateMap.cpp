@@ -77,7 +77,7 @@ void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_co
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
-  if (map_manager->level_id < 2)
+  if (map_manager->level_id < 6)
     return L1(chunk_global_pos, x, y);
   else
     return L2(chunk_global_pos, x, y);

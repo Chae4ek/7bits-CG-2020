@@ -51,6 +51,9 @@ void MapManager::GoToLevel(const int level) {
   if (level_last_pos.count(level)) {
     player->pos_x = level_last_pos.at(level)->pos_x;
     player->pos_y = level_last_pos.at(level)->pos_y;
+  } else {
+    player->pos_x = 0;
+    player->pos_y = 0;
   }
 
   seed = start_seed + level;
