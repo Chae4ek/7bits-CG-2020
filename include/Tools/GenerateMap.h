@@ -27,6 +27,10 @@ class Generate {
 
   // empty = 0, single-block > 0, other < 0
   int GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const;
+
+  int L1(const chunk_coords_t chunk_global_pos, const int x, const int y) const;
+  int L2(const chunk_coords_t chunk_global_pos, const int x, const int y) const;
+
   // range of [0, 1]
   double PerlinNoise(const double x, const double y) const;
   double DotGradient(int rand_x, int rand_y, double x, double y) const;
