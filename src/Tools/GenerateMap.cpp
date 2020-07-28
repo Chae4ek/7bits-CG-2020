@@ -77,6 +77,13 @@ void Generate::CreateEntity(const ReaderStruct* reader, const int type, chunk_co
 }
 
 int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
+  if (map_manager->level_id < 2)
+    return L1(chunk_global_pos, x, y);
+  else
+    return L2(chunk_global_pos, x, y);
+}
+
+int Generate::L1(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
   if (!x && !y) return -104781600;
 
   double noise = PerlinNoise(x / smooth, y / smooth);
@@ -96,6 +103,22 @@ int Generate::GetStructureType(const chunk_coords_t chunk_global_pos, const int 
 
   return TYPE_NULL;
 }
+int Generate::L2(const chunk_coords_t chunk_global_pos, const int x, const int y) const {
+  int x0 = x - map_manager->size_x / 2;
+  int y0 = y - map_manager->size_y / 2;
+
+  if (!x0 && !y0) return -104781600;
+
+  Srand(map_manager->seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
+
+  if (x0 * x0 + y0 * y0 > 120) return TYPE_WALL;
+
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / coin_chance / coin_chance) == 0)
+    return TYPE_COIN;
+
+  return TYPE_NULL;
+}
+
 double Generate::PerlinNoise(const double x, const double y) const {
   int x0 = static_cast<int>(x);
   int y0 = static_cast<int>(y);
