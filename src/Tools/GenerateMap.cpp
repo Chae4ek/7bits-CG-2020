@@ -1,5 +1,7 @@
 #include "Tools/GenerateMap.h"
 
+unsigned int Generate::_SEED_RANDOM = 1;
+
 Generate::Generate(MapManager* map_manager) : map_manager(map_manager) {}
 
 void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
@@ -89,7 +91,8 @@ int Generate::L1(const chunk_coords_t chunk_global_pos, const int x, const int y
   double noise = PerlinNoise(x / smooth, y / smooth);
   Srand(map_manager->seed, x * map_manager->size_x, y * map_manager->size_y);
 
-  if ((noise > threshold + sharp || Random() % 2) && ((noise > threshold - sharp && Random() % 2) || noise > threshold))
+  bool rand = Random() % 2;
+  if ((noise > threshold + sharp || rand) && ((noise > threshold - sharp && rand) || noise > threshold))
     return TYPE_WALL;
 
   Srand(map_manager->seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
@@ -109,6 +112,7 @@ int Generate::L2(const chunk_coords_t chunk_global_pos, const int x, const int y
 
   if (!x0 && !y0) return -104781600;
 
+  Srand(map_manager->seed, x * map_manager->size_x, y * map_manager->size_y);
   Srand(map_manager->seed, Random() + chunk_global_pos.first, Random() + chunk_global_pos.second);
 
   if (x0 * x0 + y0 * y0 > 120) return TYPE_WALL;
@@ -161,4 +165,14 @@ double Generate::DotGradient(int rand_x, int rand_y, double x, double y) const {
 constexpr double Generate::Lerp(const double a, const double b, double t) const {
   t = t * t * t * (t * (t * 6 - 15) + 10);
   return a + (b - a) * t;
+}
+
+inline int Generate::Random() {
+  _SEED_RANDOM = 214013 * _SEED_RANDOM + 2531011;
+  return static_cast<unsigned int>(_SEED_RANDOM / 65536) % 32768;
+}
+inline void Generate::Srand(const unsigned int seed, const int seed1, const int seed2) {
+  _SEED_RANDOM = seed;
+  _SEED_RANDOM = seed1 + Random();
+  _SEED_RANDOM = seed2 + Random();
 }
