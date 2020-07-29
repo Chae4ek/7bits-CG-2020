@@ -1,9 +1,9 @@
 #include "Game.h"
 
-Game::Game(const unsigned int seed)
+Game::Game(const unsigned int start_seed)
     : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), PREFABS.at(TYPE_PLAYER), GameStats(),
              Type(0)),
-      map_manager(seed, player.Get<Position>()),
+      map_manager(start_seed, player.Get<Position>()),
       player_control(&player, &map_manager),
       game_screen(&map_manager, &player),
       gui_screen(&map_manager, player.Get<GameStats>()),
@@ -17,7 +17,7 @@ void Game::Run() {
   // and it can create bugs
 
   // it fully fixed now
-  Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+  Generate(&map_manager, player.Get<Position>()).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
 
   while (true) {
     if (Input()) break;
@@ -25,7 +25,7 @@ void Game::Run() {
       Update();
       Render();
     } else {
-      UpdateLevelExit();
+      RenderLevelExit();
     }
   }
 }
@@ -44,7 +44,7 @@ int Game::Input() {
 }
 // TODO: this something
 void Game::Update() {}
-void Game::Render() {
+void Game::Render() const {
   game_screen.Update();
   gui_screen.Update();
 }
@@ -52,9 +52,9 @@ void Game::Render() {
 void Game::InputLevelExit(const int key) {
   if (key == TK_ENTER) {
     map_manager.level_exit = false;
-    Generate(&map_manager).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
+    Generate(&map_manager, player.Get<Position>()).TryGenerateChunk(map_manager.GetChunkCoords(player.Get<Position>()));
   }
 }
-void Game::UpdateLevelExit() {
+void Game::RenderLevelExit() const {
   level_exit_screen.Update();
 }

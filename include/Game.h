@@ -18,14 +18,14 @@ class Game {
   LevelExitScreen level_exit_screen;
 
  public:
-  explicit Game(const unsigned int seed);
+  explicit Game(const unsigned int start_seed);
 
   void Run();
 
   int Input();
   void Update();
-  void Render();
+  void Render() const;
 
   void InputLevelExit(const int key);
-  void UpdateLevelExit();
+  void RenderLevelExit() const;
 };

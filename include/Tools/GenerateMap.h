@@ -6,8 +6,9 @@
 #include "ReaderStruct.h"
 
 class Generate {
- public:
+ private:
   MapManager *map_manager;
+  Position *player;
   std::vector<struct_info> temp_structures;
 
   static unsigned int _SEED_RANDOM;
@@ -22,10 +23,12 @@ class Generate {
   const int structures_count = 1;
   const double exit_chance = 0.3;
 
-  explicit Generate(MapManager *map_manager);
+ public:
+  Generate(MapManager *map_manager, Position *player);
 
   void TryGenerateChunk(const chunk_coords_t chunk_coords);
-  void CreateEntity(const ReaderStruct *reader, const int type, chunk_coords_t chunk_coords, int x, int y);
+  void CreateEntity(const ReaderStruct *reader, const int type, const chunk_coords_t chunk_coords, const int x,
+                    const int y);
 
   // empty = 0, single-block > 0, other < 0
   int GetStructureType(const chunk_coords_t chunk_global_pos, const int x, const int y) const;

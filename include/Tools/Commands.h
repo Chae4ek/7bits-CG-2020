@@ -13,7 +13,10 @@ class MovePlayer : public ICommand {
   Entity *player;
   Position new_pos;
 
+  Position *player_pos;
+  GameStats *player_stats;
+
  public:
   MovePlayer(MapManager *map_manager, Entity *player, Position new_pos);
-  void Execute() override;
+  void Execute();
 };

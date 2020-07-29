@@ -12,7 +12,8 @@ struct struct_info {
   int x_bot;
   int y_bot;
 
-  struct_info(int x_top, int y_top, int x_bot, int y_bot) : x_top(x_top), y_top(y_top), x_bot(x_bot), y_bot(y_bot) {}
+  struct_info(const int x_top, const int y_top, const int x_bot, const int y_bot)
+      : x_top(x_top), y_top(y_top), x_bot(x_bot), y_bot(y_bot) {}
 };
 
 class IReaderStruct {

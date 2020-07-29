@@ -15,7 +15,4 @@ class PlayerControl {
   explicit PlayerControl(Entity *player, MapManager *map_manager);
 
   void Update(const int key);
-
-  constexpr int GetPosX();
-  constexpr int GetPosY();
 };

@@ -22,11 +22,11 @@ class Entity {
     Add(args...);
   }
   template<class Component>
-  void Add(Component arg) {
+  inline constexpr void Add(Component arg) {
     components[typeid(arg)] = std::make_unique<Component>(arg);
   }
   template<class Component>
-  Component* Get() const {
+  inline constexpr Component* Get() const {
     return dynamic_cast<Component*>(components.at(typeid(Component)).get());
   }
 };

@@ -17,10 +17,3 @@ void PlayerControl::Update(const int key) {
   if (key == controls->KEY_DOWN)
     MovePlayer(map_manager, player, Position(position->pos_x, position->pos_y + 1)).Execute();
 }
-
-constexpr int PlayerControl::GetPosX() {
-  return position->pos_x;
-}
-constexpr int PlayerControl::GetPosY() {
-  return position->pos_y;
-}

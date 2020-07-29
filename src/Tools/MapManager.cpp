@@ -1,12 +1,23 @@
 #include "Tools/MapManager.h"
 
-MapManager::MapManager(const unsigned int seed, Position *player) : start_seed(seed), seed(seed), player(player) {}
+MapManager::MapManager(const unsigned int start_seed, Position *player)
+    : start_seed(start_seed), player(player), seed(start_seed) {}
 
-void MapManager::CreateEntity(chunk_coords_t chunk_coords, Entity &&entity) {
+void MapManager::CreateEntity(const chunk_coords_t chunk_coords, Entity &&entity) {
   entities[level_id][chunk_coords].emplace_back(std::make_unique<Entity>(std::move(entity)));
 }
 void MapManager::Destroy(entity_ptr entity) {
   entities.at(level_id).at(entity.chunk_coords).erase(entity.iter);
+}
+
+void MapManager::SetLastPosition(const Position *player) {
+  level_last_pos[level_id] = std::make_unique<Position>(player->pos_x, player->pos_y);
+}
+bool MapManager::LevelIsEmpty(const int level) const {
+  return !level_last_pos.count(level);
+}
+int MapManager::GetLevel() const {
+  return level_id;
 }
 
 bool MapManager::ChunkIsEmpty(const chunk_coords_t chunk_coords) const {
@@ -48,12 +59,12 @@ void MapManager::GoToLevel(const int level) {
   level_exit = true;
   level_id = level;
 
-  if (level_last_pos.count(level)) {
-    player->pos_x = level_last_pos.at(level)->pos_x;
-    player->pos_y = level_last_pos.at(level)->pos_y;
-  } else {
+  if (LevelIsEmpty(level)) {
     player->pos_x = 0;
     player->pos_y = 0;
+  } else {
+    player->pos_x = level_last_pos.at(level)->pos_x;
+    player->pos_y = level_last_pos.at(level)->pos_y;
   }
 
   seed = start_seed + level;
