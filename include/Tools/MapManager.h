@@ -1,7 +1,5 @@
 #pragma once
 
-#include <BearLibTerminal.h>
-
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -9,7 +7,7 @@
 #include <vector>
 
 #include "Advanced.h"
-#include "ECS/Components.h"
+#include "ECS/Components/Position.h"
 #include "ECS/Entity.h"
 
 typedef std::pair<int, int> chunk_coords_t;

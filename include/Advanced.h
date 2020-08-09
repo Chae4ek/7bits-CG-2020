@@ -1,10 +1,8 @@
 #pragma once
 
-#include <BearLibTerminal.h>
-
 #include <map>
 
-#include "ECS/Components.h"
+#include "ECS/Components/Sprite.h"
 
 constexpr color_t COLOR_RED = 0xFFFF0000;
 constexpr color_t COLOR_ORANGE = 0xFFFF7F00;
@@ -16,14 +14,10 @@ constexpr color_t COLOR_PURPLE = 0xFFBF00FF;
 constexpr color_t COLOR_WHITE = 0xFFFFFFFF;
 constexpr color_t COLOR_GREY = 0xFF7F7F7F;
 
-constexpr int TYPE_NULL = 0;
-constexpr int TYPE_PLAYER = 1;
-constexpr int TYPE_COIN = 2;
-constexpr int TYPE_WALL = 3;
-constexpr int TYPE_EXIT = 4;
+enum ENTITY_TYPE { TYPE_NULL, TYPE_PLAYER, TYPE_COIN, TYPE_WALL, TYPE_EXIT };
 
-const std::map<int, Sprite> PREFABS = {{TYPE_NULL, Sprite('x', COLOR_RED)},
-                                       {TYPE_PLAYER, Sprite('@', COLOR_WHITE)},
-                                       {TYPE_COIN, Sprite('$', COLOR_YELLOW)},
-                                       {TYPE_WALL, Sprite('#', COLOR_GREY)},
-                                       {TYPE_EXIT, Sprite('>', COLOR_AQUA)}};
+const std::map<ENTITY_TYPE, Sprite> PREFABS = {{TYPE_NULL, Sprite('x', COLOR_RED)},
+                                               {TYPE_PLAYER, Sprite('@', COLOR_WHITE)},
+                                               {TYPE_COIN, Sprite('$', COLOR_YELLOW)},
+                                               {TYPE_WALL, Sprite('#', COLOR_GREY)},
+                                               {TYPE_EXIT, Sprite('>', COLOR_AQUA)}};

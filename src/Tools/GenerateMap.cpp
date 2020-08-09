@@ -44,12 +44,12 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
           // if none intersection
           if (generate) {
             if (info.x_top == info.x_bot && info.y_top == info.y_bot) {
-              CreateEntity(&reader, structure_type, chunk_coords, info.x_top, info.y_top);
+              CreateEntity(&reader, ENTITY_TYPE(structure_type), chunk_coords, info.x_top, info.y_top);
             } else {
               if (info.x_top != info.x_bot) temp_structures.push_back(info);  // if(...) for speed up
               for (int i = info.x_top; i <= info.x_bot; ++i)
                 for (int j = info.y_top; j <= info.y_bot; ++j)
-                  CreateEntity(&reader, reader.GetNext(), chunk_coords, i, j);
+                  CreateEntity(&reader, ENTITY_TYPE(reader.GetNext()), chunk_coords, i, j);
             }
           }
         }
@@ -59,8 +59,8 @@ void Generate::TryGenerateChunk(const chunk_coords_t chunk_coords) {
     }
   }
 }
-void Generate::CreateEntity(const ReaderStruct* reader, const int type, const chunk_coords_t chunk_coords, const int x,
-                            const int y) {
+void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, const chunk_coords_t chunk_coords,
+                            const int x, const int y) {
   if (type == TYPE_PLAYER) {
     if (map_manager->LevelIsEmpty(map_manager->GetLevel())) {
       player->pos_x = x;

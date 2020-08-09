@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Components/Controls.h"
 #include "Tools/Commands.h"
 
 class PlayerControl {

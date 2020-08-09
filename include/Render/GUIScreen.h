@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Components/GameStats.h"
 #include "IScreen.h"
 
 class GUIScreen : protected IScreen {

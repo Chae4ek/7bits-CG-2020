@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "ECS/Components/LevelExit.h"
+#include "ECS/Components/Type.h"
 #include "MapManager.h"
 #include "ReaderStruct.h"
 
@@ -27,7 +29,7 @@ class Generate {
   Generate(MapManager *map_manager, Position *player);
 
   void TryGenerateChunk(const chunk_coords_t chunk_coords);
-  void CreateEntity(const ReaderStruct *reader, const int type, const chunk_coords_t chunk_coords, const int x,
+  void CreateEntity(const ReaderStruct *reader, const ENTITY_TYPE type, const chunk_coords_t chunk_coords, const int x,
                     const int y);
 
   // empty = 0, single-block > 0, other < 0

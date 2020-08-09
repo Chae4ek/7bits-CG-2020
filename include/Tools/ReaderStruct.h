@@ -1,9 +1,6 @@
 #pragma once
 
 #include <cstdio>
-#include <string>
-
-#include "ECS/Components.h"
 
 struct struct_info {
  public:

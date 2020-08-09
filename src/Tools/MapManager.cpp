@@ -45,7 +45,7 @@ Position MapManager::GlobalToLocal(const Position *global_pos) const {
 entity_ptr MapManager::GetEntity(const chunk_coords_t chunk_coords, const Position local_pos) const {
   if (ChunkIsEmpty(chunk_coords)) return entity_ptr();
 
-  entity_t entity =
+  const entity_t entity =
       std::find_if(entities.at(level_id).at(chunk_coords).begin(), entities.at(level_id).at(chunk_coords).end(),
                    [local_pos](const std::unique_ptr<Entity> &e) {
                      Position *pos = e->Get<Position>();

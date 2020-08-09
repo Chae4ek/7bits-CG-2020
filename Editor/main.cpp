@@ -14,7 +14,7 @@ int main() {
 
   terminal_open();
 
-  terminal_set("window: title=Game, size=80x30; input: mouse-cursor=true, filter=[keyboard, mouse+]");
+  terminal_set("window: title=Game, size=80x30; input: filter=[keyboard, mouse+]");
   terminal_composition(TK_ON);
 
   const int WIDTH = terminal_state(TK_WIDTH);
@@ -62,19 +62,19 @@ int main() {
     for (int x = 0; x < WIDTH; ++x) {
       for (int y = 0; y < HEIGHT; ++y) {
         if (structure[x][y] != TYPE_NULL) {
-          terminal_color(PREFABS.at(structure[x][y]).color);
-          terminal_put(x, y, PREFABS.at(structure[x][y]).texture);
+          terminal_color(PREFABS.at((ENTITY_TYPE)structure[x][y]).color);
+          terminal_put(x, y, PREFABS.at((ENTITY_TYPE)structure[x][y]).texture);
         }
       }
-      terminal_color(_COLOR_BLUE);
+      terminal_color(COLOR_BLUE);
       terminal_put(x, HEIGHT, PREFABS.at(TYPE_WALL).texture);
     }
-    terminal_color(_COLOR_YELLOW);
+    terminal_color(COLOR_YELLOW);
     terminal_printf(1, HEIGHT + 2, "[[WHEEL]] listing types");
     terminal_printf(1, HEIGHT + 4, "[[LCM/RCM]] set/delete type");
 
-    terminal_color(PREFABS.at(current_type).color);
-    terminal_put(x, y, PREFABS.at(current_type).texture);
+    terminal_color(PREFABS.at((ENTITY_TYPE)current_type).color);
+    terminal_put(x, y, PREFABS.at((ENTITY_TYPE)current_type).texture);
 
     if (terminal_has_input()) {
       int key = terminal_read();

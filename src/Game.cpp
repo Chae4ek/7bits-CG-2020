@@ -2,7 +2,7 @@
 
 Game::Game(const unsigned int start_seed)
     : player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN), PREFABS.at(TYPE_PLAYER), GameStats(),
-             Type(0)),
+             Type(TYPE_PLAYER)),
       map_manager(start_seed, player.Get<Position>()),
       player_control(&player, &map_manager),
       game_screen(&map_manager, &player),

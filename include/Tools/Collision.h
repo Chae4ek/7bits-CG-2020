@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ECS/Components/GameStats.h"
+#include "ECS/Components/LevelExit.h"
+#include "ECS/Components/Type.h"
 #include "MapManager.h"
 
 class Collision {
