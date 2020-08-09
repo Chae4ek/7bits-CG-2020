@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Systems/LevelExitControl.h"
 #include "ECS/Systems/PlayerControl.h"
 #include "Render/GUIScreen.h"
 #include "Render/GameScreen.h"
@@ -12,6 +13,7 @@ class Game {
   MapManager map_manager;
 
   PlayerControl player_control;
+  LevelExitControl level_exit_control;
 
   GameScreen game_screen;
   GUIScreen gui_screen;
@@ -26,6 +28,5 @@ class Game {
   void Update();
   void Render() const;
 
-  void InputLevelExit(const int key);
   void RenderLevelExit() const;
 };

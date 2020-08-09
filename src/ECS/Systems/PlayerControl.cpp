@@ -8,6 +8,8 @@ PlayerControl::PlayerControl(Entity *player, MapManager *map_manager)
       game_stats(player->Get<GameStats>()) {}
 
 void PlayerControl::Update(const int key) {
+  if (map_manager->level_exit) return;
+
   if (key == controls->KEY_LEFT)
     MovePlayer(map_manager, player, Position(position->pos_x - 1, position->pos_y)).Execute();
   if (key == controls->KEY_RIGHT)

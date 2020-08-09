@@ -7,5 +7,5 @@ class Position : public IComponent {
   int pos_x;
   int pos_y;
 
-  Position(int x, int y) : pos_x(x), pos_y(y) {}
+  Position(const int x, const int y) : pos_x(x), pos_y(y) {}
 };

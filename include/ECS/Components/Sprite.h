@@ -10,5 +10,5 @@ class Sprite : public IComponent {
   char texture;
   color_t color;
 
-  Sprite(char texture, color_t color) : texture(texture), color(color) {}
+  Sprite(const char texture, const color_t color) : texture(texture), color(color) {}
 };
