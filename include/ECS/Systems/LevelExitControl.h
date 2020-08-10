@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/Components/Controls.h"
-#include "Tools/Commands.h"
+#include "Tools/GenerateMap.h"
 
 class LevelExitControl {
  private:
