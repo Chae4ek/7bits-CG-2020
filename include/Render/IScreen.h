@@ -4,6 +4,9 @@
 
 class IScreen {
  protected:
+  const int pos_game_x = 10;
+  const int pos_game_y = 4;
+
   inline void Print(int x, int y, const Sprite *sprite) const {
     terminal_color(sprite->color);
     terminal_put(x, y, sprite->texture);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Components/Defense.h"
 #include "ECS/Systems/LevelExitControl.h"
 #include "ECS/Systems/MenuControl.h"
 #include "ECS/Systems/PlayerControl.h"

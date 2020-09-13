@@ -10,7 +10,7 @@ void MapManager::Destroy(entity_ptr entity) {
   entities.at(level_id).at(entity.chunk_coords).erase(entity.iter);
 }
 
-void MapManager::SetLastPosition(const Position *player) {
+void MapManager::SavePlayerPosition() {
   level_last_pos[level_id] = std::make_unique<Position>(player->pos_x, player->pos_y);
 }
 bool MapManager::LevelIsEmpty(const int level) const {

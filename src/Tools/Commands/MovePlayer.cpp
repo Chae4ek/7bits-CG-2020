@@ -5,7 +5,8 @@ MovePlayer::MovePlayer(MapManager *map_manager, Entity *player, Position new_pos
       player(player),
       new_pos(new_pos.pos_x, new_pos.pos_y),
       player_pos(player->Get<Position>()),
-      player_stats(player->Get<GameStats>()) {}
+      player_stats(player->Get<GameStats>()),
+      player_inv(player->Get<Inventory>()) {}
 
 void MovePlayer::Execute() {
   const chunk_coords_t chunk_coords = map_manager->GetChunkCoords(&new_pos);
@@ -16,8 +17,8 @@ void MovePlayer::Execute() {
 
   Collision collision(map_manager, player);
 
-  if (collision.ForMovePlayer(entity)) {
-    map_manager->SetLastPosition(player_pos);
+  if (collision.GetType(entity) != TYPE_WALL) {
+    map_manager->SavePlayerPosition();
 
     player_pos->pos_x = new_pos.pos_x;
     player_pos->pos_y = new_pos.pos_y;

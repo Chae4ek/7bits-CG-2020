@@ -35,11 +35,12 @@ class MapManager {
 
  public:
   // TODO: private this later
+  // TODO: search entity by coords
   std::map<int, std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>>> entities;
   bool level_exit = false;
 
-  const int size_x = terminal_state(TK_WIDTH);
-  const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like GUIScreen system parameters
+  const int size_x = 80;
+  const int size_y = 24;
 
   unsigned int seed;
 
@@ -48,7 +49,7 @@ class MapManager {
   void CreateEntity(const chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
 
-  void SetLastPosition(const Position *player);
+  void SavePlayerPosition();
   bool LevelIsEmpty(const int level) const;
   int GetLevel() const;
 

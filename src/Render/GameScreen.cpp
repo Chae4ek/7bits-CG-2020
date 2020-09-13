@@ -13,11 +13,12 @@ void GameScreen::Update() const {
     entity_t entity = map_manager->entities.at(map_manager->GetLevel()).at(current_chunk).begin();
     const entity_t end = map_manager->entities.at(map_manager->GetLevel()).at(current_chunk).end();
     while (entity != end) {
-      Print((*entity)->Get<Position>()->pos_x, (*entity)->Get<Position>()->pos_y, (*entity)->Get<Sprite>());
+      Print((*entity)->Get<Position>()->pos_x + pos_game_x, (*entity)->Get<Position>()->pos_y + pos_game_y,
+            (*entity)->Get<Sprite>());
       ++entity;
     }
   }
 
   const Position player_local_pos = map_manager->GlobalToLocal(player_pos);
-  Print(player_local_pos.pos_x, player_local_pos.pos_y, player_sprite);
+  Print(player_local_pos.pos_x + pos_game_x, player_local_pos.pos_y + pos_game_y, player_sprite);
 }

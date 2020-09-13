@@ -2,14 +2,17 @@
 
 Game::Game(const unsigned int start_seed)
     : menu_prop(MenuProperties(true, false)),
-      player(Position(0, 0), Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN, TK_ENTER, TK_ESCAPE), PREFABS.at(TYPE_PLAYER),
-             GameStats(), Type(TYPE_PLAYER)),
+      player(Position(0, 0),
+             Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN, TK_ENTER, TK_ESCAPE, TK_1, TK_2, TK_3, TK_4, TK_5, TK_6, TK_7,
+                      TK_8),
+             Sprite(PREFABS.at(TYPE_PLAYER).texture, PREFABS.at(TYPE_PLAYER).color), GameStats(), Type(TYPE_PLAYER),
+             Defense(10, 5), Inventory(8)),
       map_manager(start_seed, player.Get<Position>()),
       player_control(&player, &map_manager),
       level_exit_control(&player, &map_manager),
       menu_control(&menu_prop, player.Get<Controls>()),
       game_screen(&map_manager, &player),
-      gui_screen(&map_manager, player.Get<GameStats>()),
+      gui_screen(&map_manager, &player),
       level_exit_screen(player.Get<GameStats>()),
       menu_screen(&menu_prop) {}
 
@@ -41,10 +44,12 @@ int Game::Input() {
     const int key = terminal_read();
     if (key == TK_CLOSE) return 1;
 
+    if (!menu_prop.in_menu) {
+      player_control.Update(key);
+      level_exit_control.Update(key);
+    }
     menu_control.Update(key);
-    if (menu_prop.in_menu) return 0;
-    player_control.Update(key);
-    level_exit_control.Update(key);
+    if (menu_prop.exit) return 1;
   }
   return 0;
 }

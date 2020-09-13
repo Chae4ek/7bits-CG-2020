@@ -12,6 +12,7 @@ class MovePlayer : public ICommand {
 
   Position *player_pos;
   GameStats *player_stats;
+  Inventory *player_inv;
 
  public:
   MovePlayer(MapManager *map_manager, Entity *player, Position new_pos);

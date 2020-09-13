@@ -8,9 +8,10 @@ class PlayerControl {
   Entity *player;
   MapManager *map_manager;
 
-  Position *position;
+  Position *player_pos;
   const Controls *controls;
-  GameStats *game_stats;
+  GameStats *player_stats;
+  Inventory *player_inv;
 
  public:
   PlayerControl(Entity *player, MapManager *map_manager);

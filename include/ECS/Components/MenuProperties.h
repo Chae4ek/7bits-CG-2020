@@ -4,6 +4,7 @@
 
 class MenuProperties : public IComponent {
  public:
+  bool exit = false;
   int cursor = 0;
 
   bool in_menu;

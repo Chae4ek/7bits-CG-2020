@@ -67,13 +67,24 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
       player->pos_y = y;
     }
   } else if (type != TYPE_NULL) {
-    Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)), PREFABS.at(type));
+    Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)),
+                  Sprite(PREFABS.at(type).texture, PREFABS.at(type).color));
 
+    // TODO: replace to vector of components
     if (type == TYPE_EXIT) {
       int level = reader->GetNext();
       if (map_manager->GetLevel() > 0) level += map_manager->GetLevel();
       if (!level) --level;
       entity.Add(LevelExit(level));
+    }
+    if (type == TYPE_SWORD || type == TYPE_BOMB || type == TYPE_CHEST) {  // TODO: create custom CHEST
+      const int durability = Random() % 10 + 1;
+      const int health_damage = Random() % 5 + 1;
+      const int armor_damage = Random() % 3 + 1;
+      entity.Add(Weapon(durability, health_damage, armor_damage));
+
+      const int type = Random() % 2;
+      if (type == TYPE_CHEST) entity.Add(ChestType(type ? TYPE_SWORD : TYPE_BOMB));
     }
 
     map_manager->CreateEntity(chunk_coords, std::move(entity));
@@ -102,6 +113,9 @@ int Generate::L1(const chunk_coords_t chunk_global_pos, const int x, const int y
   Srand(map_manager->seed, seed1, seed2);
 
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / coin_chance) == 0) return TYPE_COIN;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / chest_chance) == 0) return TYPE_CHEST;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / sword_chance) == 0) return TYPE_SWORD;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / bomb_chance) == 0) return TYPE_BOMB;
 
   // TODO: replace to dictionary?
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / structures_chance) == 0)
@@ -125,6 +139,8 @@ int Generate::L2(const chunk_coords_t chunk_global_pos, const int x, const int y
 
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / coin_chance / coin_chance) == 0)
     return TYPE_COIN;
+
+  // something else
 
   return TYPE_NULL;
 }
