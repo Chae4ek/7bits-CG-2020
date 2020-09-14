@@ -9,9 +9,12 @@
 #include "Render/GameScreen.h"
 #include "Render/LevelExitScreen.h"
 #include "Render/MenuScreen.h"
+#include "Tools/Localization.h"
 
 class Game {
  private:
+  Localization localization;
+
   MenuProperties menu_prop;
 
   Entity player;

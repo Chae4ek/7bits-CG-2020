@@ -1,0 +1,38 @@
+language = Русский
+
+[GUI]
+
+health = Здоровье
+armor = Защита
+
+statistics = Статистика
+coins = Монеты
+step_count = Количество шагов
+
+inventory = Инвентарь
+sword = Меч
+bomb = Бомба
+chest = Сундук
+
+selected_item = Выбранный предмет
+durability_count = Прочность / Количество
+health_damage = Урон по здоровью
+armor_damage = Урон по защите
+
+enemy_info = Инфа о враге
+health = Здоровье
+armor = Защита
+
+[LevelExit]
+
+press_for_continue = Нажмите [[ENTER]] для продолжения
+
+[Menu]
+
+menu = Меню
+play = Играть
+new_graphics = Новая графика
+on = Включено
+off = Выключено
+localization = Локализация
+exit = Выход

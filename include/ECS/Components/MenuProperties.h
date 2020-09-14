@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "ECS/IComponent.h"
 
 class MenuProperties : public IComponent {
@@ -10,5 +13,9 @@ class MenuProperties : public IComponent {
   bool in_menu;
   bool new_graphics;
 
-  MenuProperties(const bool in_menu, const bool new_graphics) : in_menu(in_menu), new_graphics(new_graphics) {}
+  int local_id = 0;
+  const std::vector<std::string> locals;
+
+  MenuProperties(const bool in_menu, const bool new_graphics, const std::vector<std::string> locals)
+      : in_menu(in_menu), new_graphics(new_graphics), locals(locals) {}
 };

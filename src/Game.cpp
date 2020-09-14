@@ -1,7 +1,8 @@
 #include "Game.h"
 
 Game::Game(const unsigned int start_seed)
-    : menu_prop(MenuProperties(true, false)),
+    : localization("en.txt"),
+      menu_prop(MenuProperties(true, false, {"en.txt", "ru.txt"})),
       player(
           Position(0, 0),
           Controls(TK_LEFT, TK_RIGHT, TK_UP, TK_DOWN, TK_ENTER, TK_ESCAPE, TK_1, TK_2, TK_3, TK_4, TK_5, TK_6, TK_7,
@@ -11,11 +12,11 @@ Game::Game(const unsigned int start_seed)
       map_manager(start_seed, &player),
       player_control(&player, &map_manager),
       level_exit_control(&player, &map_manager),
-      menu_control(&menu_prop, player.Get<Controls>()),
+      menu_control(&menu_prop, player.Get<Controls>(), &localization),
       game_screen(&map_manager, &player, &menu_prop),
-      gui_screen(&map_manager, &player, &menu_prop),
-      level_exit_screen(player.Get<GameStats>()),
-      menu_screen(&menu_prop),
+      gui_screen(&map_manager, &player, &menu_prop, &localization),
+      level_exit_screen(player.Get<GameStats>(), &localization),
+      menu_screen(&menu_prop, &localization),
       enemy_control(&player, &map_manager) {
   terminal_set("0x1001: ./Textures/@.png, size=10x10, align=center");
   terminal_set("0x1002: ./Textures/$.png, size=4x4, align=center");

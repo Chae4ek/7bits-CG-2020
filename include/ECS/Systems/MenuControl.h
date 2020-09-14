@@ -4,14 +4,16 @@
 
 #include "ECS/Components/Controls.h"
 #include "ECS/Components/MenuProperties.h"
+#include "Tools/Localization.h"
 
 class MenuControl {
  private:
   MenuProperties* menu_prop;
   const Controls* controls;
+  Localization* localization;
 
  public:
-  explicit MenuControl(MenuProperties* menu_prop, const Controls* controls);
+  explicit MenuControl(MenuProperties* menu_prop, const Controls* controls, Localization* localization);
 
   void Update(const int key);
 

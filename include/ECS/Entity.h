@@ -18,7 +18,6 @@ class Entity {
   }
   template<class Component, class... Components>
   void Add(Component&& arg, Components&&... args) {
-    // TODO: remove recursion later?
     Add(std::move(arg));
     Add(std::move(args)...);
   }

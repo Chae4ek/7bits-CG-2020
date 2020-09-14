@@ -1,7 +1,7 @@
 #include "ECS/Systems/MenuControl.h"
 
-MenuControl::MenuControl(MenuProperties* menu_prop, const Controls* controls)
-    : menu_prop(menu_prop), controls(controls) {}
+MenuControl::MenuControl(MenuProperties* menu_prop, const Controls* controls, Localization* localization)
+    : menu_prop(menu_prop), controls(controls), localization(localization) {}
 
 void MenuControl::Update(const int key) {
   if (key == controls->KEY_ESC) {
@@ -11,7 +11,7 @@ void MenuControl::Update(const int key) {
   if (!menu_prop->in_menu) return;
 
   if (key == controls->KEY_UP && menu_prop->cursor > 0) --menu_prop->cursor;
-  if (key == controls->KEY_DOWN && menu_prop->cursor < 2) ++menu_prop->cursor;
+  if (key == controls->KEY_DOWN && menu_prop->cursor < 3) ++menu_prop->cursor;
 
   if (key == controls->KEY_ENTER) {
     switch (menu_prop->cursor) {
@@ -27,6 +27,11 @@ void MenuControl::Update(const int key) {
           SetOldGraphics();
         break;
       case 2:
+        menu_prop->local_id++;
+        if (menu_prop->local_id >= static_cast<int>(menu_prop->locals.size())) menu_prop->local_id = 0;
+        localization->SetLocal(menu_prop->locals.at(menu_prop->local_id));
+        break;
+      case 3:
         menu_prop->exit = true;
         break;
       default:

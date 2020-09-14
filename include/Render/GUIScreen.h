@@ -9,12 +9,14 @@
 #include "ECS/Components/Weapon.h"
 #include "IScreen.h"
 #include "Tools/Collision.h"
+#include "Tools/Localization.h"
 
 class GUIScreen : protected IScreen {
  private:
   const MapManager *map_manager;
   const Entity *player;
   const MenuProperties *menu_prop;
+  const Localization *localization;
 
   const GameStats *player_stats;
   const Inventory *player_inv;
@@ -27,7 +29,8 @@ class GUIScreen : protected IScreen {
   const int pos_stats_y;
 
  public:
-  GUIScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop);
+  GUIScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop,
+            const Localization *localization);
 
   void Update() const;
 
