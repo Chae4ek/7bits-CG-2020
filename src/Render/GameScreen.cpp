@@ -7,7 +7,7 @@ GameScreen::GameScreen(const MapManager *map_manager, const Entity *player, cons
       menu_prop(menu_prop) {}
 
 void GameScreen::Update() const {
-  // TODO: delete and optimize this later
+  // TODO: delete and optimize this later ?
   terminal_clear();
 
   const chunk_coords_t current_chunk = map_manager->GetChunkCoords(player_pos);

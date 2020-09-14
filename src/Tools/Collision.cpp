@@ -9,7 +9,7 @@ ENTITY_TYPE Collision::GetType(const entity_ptr entity) const {
 void Collision::CollidePlayer(entity_ptr entity) {
   const int type = GetType(entity);
 
-  // TODO: replace to item dictionary
+  // TODO: replace to item dictionary ?
   switch (type) {
     case TYPE_WALL:
       break;
@@ -22,11 +22,7 @@ void Collision::CollidePlayer(entity_ptr entity) {
       break;
 
     case TYPE_SWORD:
-      PickUpItem(entity);
-      break;
     case TYPE_BOMB:
-      PickUpItem(entity);
-      break;
     case TYPE_CHEST:
       PickUpItem(entity);
       break;

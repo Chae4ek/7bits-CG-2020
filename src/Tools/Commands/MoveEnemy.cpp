@@ -38,9 +38,11 @@ int MoveEnemy::AttackingEnemy(const Entity *mob) {
   }
   return 0;
 }
-int MoveEnemy::TryToAttack(Weapon *weapon) {
+void MoveEnemy::TryToAttack(Weapon *weapon) {
   const Position local_player_pos = map_manager->GlobalToLocal(player_pos);
   const entity_ptr entity = map_manager->GetEntity(map_manager->GetChunkCoords(player_pos), local_player_pos);
+  Inventory *player_inv = player->Get<Inventory>();
+
   if (entity.valid && entity.iter->get()->Get<Type>()->type == TYPE_ENEMY) {
     Defense *mob_def = entity.iter->get()->Get<Defense>();
 
@@ -51,13 +53,21 @@ int MoveEnemy::TryToAttack(Weapon *weapon) {
     if (mob_def->health <= 0)
       map_manager->Destroy(entity);
     else if (AttackingEnemy(entity.iter->get()))
-      return 1;
+      return;
 
     weapon->durability--;
-    if (weapon->durability > 0) return 1;
-    return 2;
+    if (weapon->durability > 0) return;
+
+  } else {
+    player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_x = map_manager->GlobalToLocal(player_pos).pos_x;
+    player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_y = map_manager->GlobalToLocal(player_pos).pos_y;
+
+    map_manager->entities.at(map_manager->GetLevel())
+        .at(map_manager->GetChunkCoords(player_pos))
+        .emplace_back(std::move(player_inv->inventory.at(player_inv->cursor)));
   }
-  return 0;
+
+  player_inv->inventory.erase(player_inv->inventory.begin() + player_inv->cursor);
 }
 
 void MoveEnemy::PlayerDeath() {

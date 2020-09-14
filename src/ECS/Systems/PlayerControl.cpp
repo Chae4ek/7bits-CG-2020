@@ -30,30 +30,7 @@ void PlayerControl::Update(const int key) {
   if (key == controls->KEY_7 && 7 <= player_inv->max_items) player_inv->cursor = 6;
   if (key == controls->KEY_8 && 8 <= player_inv->max_items) player_inv->cursor = 7;
 
-  if (key == controls->KEY_ENTER && player_inv->cursor < static_cast<int>(player_inv->inventory.size())) {
-    const int try_attack = MoveEnemy(map_manager, player, nullptr, Position(0, 0))
-                               .TryToAttack(player_inv->inventory.at(player_inv->cursor)->Get<Weapon>());
-
-    switch (try_attack) {
-      case 0:
-        player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_x =
-            map_manager->GlobalToLocal(player_pos).pos_x;
-        player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_y =
-            map_manager->GlobalToLocal(player_pos).pos_y;
-
-        map_manager->entities.at(map_manager->GetLevel())
-            .at(map_manager->GetChunkCoords(player->Get<Position>()))
-            .emplace_back(std::move(player_inv->inventory.at(player_inv->cursor)));
-
-        player_inv->inventory.erase(player_inv->inventory.begin() + player_inv->cursor);
-        break;
-      case 1:
-        break;
-      case 2:
-        player_inv->inventory.erase(player_inv->inventory.begin() + player_inv->cursor);
-        break;
-      default:
-        break;
-    }
-  }
+  if (key == controls->KEY_ENTER && player_inv->cursor < static_cast<int>(player_inv->inventory.size()))
+    MoveEnemy(map_manager, player, nullptr, Position(0, 0))
+        .TryToAttack(player_inv->inventory.at(player_inv->cursor)->Get<Weapon>());
 }

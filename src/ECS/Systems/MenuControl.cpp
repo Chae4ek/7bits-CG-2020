@@ -13,20 +13,25 @@ void MenuControl::Update(const int key) {
   if (key == controls->KEY_UP && menu_prop->cursor > 0) --menu_prop->cursor;
   if (key == controls->KEY_DOWN && menu_prop->cursor < 2) ++menu_prop->cursor;
 
-  // TODO: replace to dictionary
   if (key == controls->KEY_ENTER) {
-    if (menu_prop->cursor == 0) {
-      menu_prop->in_menu = !menu_prop->in_menu;
-      menu_prop->cursor = 0;
+    switch (menu_prop->cursor) {
+      case 0:
+        menu_prop->in_menu = !menu_prop->in_menu;
+        menu_prop->cursor = 0;
+        break;
+      case 1:
+        menu_prop->new_graphics = !menu_prop->new_graphics;
+        if (menu_prop->new_graphics)
+          SetNewGraphics();
+        else
+          SetOldGraphics();
+        break;
+      case 2:
+        menu_prop->exit = true;
+        break;
+      default:
+        break;
     }
-    if (menu_prop->cursor == 1) {
-      menu_prop->new_graphics = !menu_prop->new_graphics;
-      if (menu_prop->new_graphics)
-        SetNewGraphics();
-      else
-        SetOldGraphics();
-    }
-    if (menu_prop->cursor == 2) menu_prop->exit = true;
   }
 }
 

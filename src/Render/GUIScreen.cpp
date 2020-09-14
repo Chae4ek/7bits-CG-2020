@@ -14,7 +14,17 @@ GUIScreen::GUIScreen(const MapManager *map_manager, const Entity *player, const 
       pos_stats_y(map_manager->size_y + pos_game_y + 1) {}
 
 void GUIScreen::Update() const {
-  // interface
+  RenderInterface();
+  RenderPlayerDefense();
+  RenderPlayerStats();
+  RenderInventory();
+  RenderItemStats();
+  RenderFightingInfo();
+
+  terminal_refresh();
+}
+
+void GUIScreen::RenderInterface() const {
   const Sprite interface(PREFABS.at(TYPE_WALL).texture, COLOR_BLUE, PREFABS.at(TYPE_WALL).hex_texture);
   for (int i = 0; i < terminal_state(TK_WIDTH); ++i) {
     Print(i, pos_game_y - 1, &interface, menu_prop->new_graphics);
@@ -24,21 +34,21 @@ void GUIScreen::Update() const {
     Print(pos_game_x - 1, i, &interface, menu_prop->new_graphics);
     Print(pos_inv_x - 1, i, &interface, menu_prop->new_graphics);
   }
-
-  // defense
+}
+void GUIScreen::RenderPlayerDefense() const {
   Print(COLOR_WHITE, 1, 1, "Health = ");
   Print(COLOR_YELLOW, 10, 1, "%d", player_def->health);
   Print(COLOR_WHITE, 20, 1, "Armor = ");
   Print(COLOR_YELLOW, 28, 1, "%d", player_def->armor);
-
-  // player stats
+}
+void GUIScreen::RenderPlayerStats() const {
   Print(COLOR_BLUE, 1, pos_stats_y, "Statistics");
   Print(COLOR_WHITE, 1, pos_stats_y + 2, "Coins = ");
   Print(COLOR_YELLOW, 9, pos_stats_y + 2, "%d", player_stats->coins);
   Print(COLOR_WHITE, 1, pos_stats_y + 3, "Step count = ");
   Print(COLOR_YELLOW, 14, pos_stats_y + 3, "%d", player_stats->step_count);
-
-  // inv
+}
+void GUIScreen::RenderInventory() const {
   Print(COLOR_BLUE, pos_inv_x + 1, pos_inv_y + 1, "Inventory");
   Print(COLOR_AQUA, pos_inv_x + 1, pos_inv_y + 3 + player_inv->cursor * 2, ">");
   const int items_count = player_inv->inventory.size();
@@ -61,14 +71,14 @@ void GUIScreen::Update() const {
       Print(COLOR_GREY, pos_inv_x + 3, pos_inv_y + 3 + i * 2, "...");
     }
   }
-
-  // inv stats
-  int offset = 75;
+}
+void GUIScreen::RenderItemStats() const {
+  const int offset = 75;
   Print(COLOR_BLUE, offset, pos_stats_y, "Selected item");
   Print(COLOR_WHITE, offset, pos_stats_y + 1, "Durability / Count = ");
   Print(COLOR_WHITE, offset, pos_stats_y + 2, "Health damage = ");
   Print(COLOR_WHITE, offset, pos_stats_y + 3, "Armor damage = ");
-  if (player_inv->cursor < items_count &&
+  if (player_inv->cursor < static_cast<int>(player_inv->inventory.size()) &&
       player_inv->inventory.at(player_inv->cursor).get()->Get<Type>()->type != TYPE_CHEST) {
     const Weapon *current_weapon = player_inv->inventory.at(player_inv->cursor).get()->Get<Weapon>();
     Print(COLOR_YELLOW, offset + 21, pos_stats_y + 1, "%d", current_weapon->durability);
@@ -79,9 +89,9 @@ void GUIScreen::Update() const {
     Print(COLOR_YELLOW, offset + 16, pos_stats_y + 2, "--");
     Print(COLOR_YELLOW, offset + 15, pos_stats_y + 3, "--");
   }
-
-  // fighting info
-  offset = 45;
+}
+void GUIScreen::RenderFightingInfo() const {
+  const int offset = 45;
   Print(COLOR_BLUE, offset, pos_stats_y, "Enemy info");
   Print(COLOR_WHITE, offset, pos_stats_y + 2, "Health = ");
   Print(COLOR_WHITE, offset, pos_stats_y + 3, "Armor = ");
@@ -95,6 +105,4 @@ void GUIScreen::Update() const {
     Print(COLOR_YELLOW, offset + 9, pos_stats_y + 2, "--");
     Print(COLOR_YELLOW, offset + 8, pos_stats_y + 3, "--");
   }
-
-  terminal_refresh();
 }

@@ -9,7 +9,6 @@ void MenuScreen::Update() const {
 
   Print(COLOR_AQUA, 1, 3 + menu_prop->cursor * 2, ">");
 
-  // TODO: replace to dictionary?
   Print(COLOR_WHITE, 3, 3, "Play");
   Print(COLOR_WHITE, 3, 5, "New graphics: %s", menu_prop->new_graphics ? "On" : "Off");
   Print(COLOR_WHITE, 3, 7, "Exit");

@@ -30,4 +30,11 @@ class GUIScreen : protected IScreen {
   GUIScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop);
 
   void Update() const;
+
+  void RenderInterface() const;
+  void RenderPlayerDefense() const;
+  void RenderPlayerStats() const;
+  void RenderInventory() const;
+  void RenderItemStats() const;
+  void RenderFightingInfo() const;
 };

@@ -30,7 +30,6 @@ class Generate {
   const double bomb_chance = 0.5;
   const double enemy_chance = 10;
   const double structures_chance = 3;
-  // TODO: delete this later
   const int structures_count = 1;
   const double exit_chance = 0.3;
 
