@@ -1,6 +1,6 @@
 #include "Render/GameScreen.h"
 
-GameScreen::GameScreen(const MapManager *map_manager, const Entity *player, MenuProperties *menu_prop)
+GameScreen::GameScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop)
     : map_manager(map_manager),
       player_pos(player->Get<Position>()),
       player_sprite(player->Get<Sprite>()),

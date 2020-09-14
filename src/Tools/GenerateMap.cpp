@@ -87,7 +87,7 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
       if (type == TYPE_CHEST) entity.Add(ChestType(type ? TYPE_SWORD : TYPE_BOMB));
     }
     if (type == TYPE_ENEMY) {
-      const int health = Random() % 5;
+      const int health = Random() % 4 + 1;
       const int armor = Random() % 5;
       entity.Add(Defense(health, armor), GameStats());
     }

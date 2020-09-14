@@ -10,10 +10,10 @@ class GameScreen : protected IScreen {
   const Position *player_pos;
   const Sprite *player_sprite;
 
-  MenuProperties *menu_prop;
+  const MenuProperties *menu_prop;
 
  public:
-  GameScreen(const MapManager *map_manager, const Entity *player, MenuProperties *menu_prop);
+  GameScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop);
 
   void Update() const;
 };

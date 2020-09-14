@@ -27,6 +27,7 @@ class MoveEnemy : public ICommand {
 
   Position *mob_pos;
   GameStats *mob_stats;
+  Position *player_pos;
 
  public:
   MoveEnemy(MapManager *map_manager, Entity *player, Entity *mob, Position new_pos);
