@@ -27,8 +27,8 @@ enum ENTITY_TYPE {
 };
 
 const std::map<ENTITY_TYPE, Sprite> PREFABS = {
-    {TYPE_NULL, Sprite('x', COLOR_RED)},    {TYPE_PLAYER, Sprite('@', COLOR_WHITE)},
-    {TYPE_COIN, Sprite('$', COLOR_GREEN)},  {TYPE_WALL, Sprite('#', COLOR_GREY)},
-    {TYPE_EXIT, Sprite('>', COLOR_AQUA)},   {TYPE_SWORD, Sprite('i', COLOR_PURPLE)},
-    {TYPE_BOMB, Sprite('o', COLOR_ORANGE)}, {TYPE_CHEST, Sprite('X', COLOR_YELLOW)},
-    {TYPE_ENEMY, Sprite('E', COLOR_RED)}};
+    {TYPE_NULL, Sprite('x', COLOR_RED, 0x1000)},    {TYPE_PLAYER, Sprite('@', COLOR_WHITE, 0x1001)},
+    {TYPE_COIN, Sprite('$', COLOR_GREEN, 0x1002)},  {TYPE_WALL, Sprite('#', COLOR_GREY, 0x1003)},
+    {TYPE_EXIT, Sprite('>', COLOR_AQUA, 0x1004)},   {TYPE_SWORD, Sprite('i', COLOR_PURPLE, 0x1005)},
+    {TYPE_BOMB, Sprite('o', COLOR_ORANGE, 0x1006)}, {TYPE_CHEST, Sprite('X', COLOR_YELLOW, 0x1007)},
+    {TYPE_ENEMY, Sprite('E', COLOR_RED, 0x1008)}};

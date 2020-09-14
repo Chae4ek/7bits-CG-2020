@@ -18,7 +18,5 @@ void MoveEnemy::Execute() {
     mob_pos->pos_y = new_pos.pos_y;
 
     mob_stats->step_count++;
-
-    collision.Collide(mob, entity);
   }
 }

@@ -11,7 +11,7 @@ void MenuScreen::Update() const {
 
   // TODO: replace to dictionary?
   Print(COLOR_WHITE, 3, 3, "Play");
-  Print(COLOR_GREY, 3, 5, "new_graphics: %s", menu_prop->new_graphics ? "true" : "false");
+  Print(COLOR_WHITE, 3, 5, "New graphics: %s", menu_prop->new_graphics ? "On" : "Off");
   Print(COLOR_WHITE, 3, 7, "Exit");
 
   terminal_refresh();

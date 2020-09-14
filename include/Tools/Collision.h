@@ -16,7 +16,7 @@ class Collision {
   Collision(MapManager *map_manager, Entity *player);
 
   ENTITY_TYPE GetType(const entity_ptr entity) const;
-  void Collide(Entity *mob, entity_ptr entity);
+  void CollidePlayer(entity_ptr entity);
 
   void PickUpItem(entity_ptr entity);
 };

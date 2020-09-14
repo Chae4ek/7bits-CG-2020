@@ -6,7 +6,7 @@ ENTITY_TYPE Collision::GetType(const entity_ptr entity) const {
   if (!entity.valid) return TYPE_NULL;
   return (*entity.iter)->Get<Type>()->type;
 }
-void Collision::Collide(Entity *mob, entity_ptr entity) {
+void Collision::CollidePlayer(entity_ptr entity) {
   const int type = GetType(entity);
 
   // TODO: replace to item dictionary
@@ -14,25 +14,25 @@ void Collision::Collide(Entity *mob, entity_ptr entity) {
     case TYPE_WALL:
       break;
     case TYPE_COIN:
-      mob->Get<GameStats>()->coins++;
+      player->Get<GameStats>()->coins++;
       map_manager->Destroy(entity);
       break;
     case TYPE_EXIT:
-      if (mob == player) map_manager->GoToLevel((*entity.iter)->Get<LevelExit>()->level);
+      map_manager->GoToLevel((*entity.iter)->Get<LevelExit>()->level);
       break;
 
     case TYPE_SWORD:
-      if (mob == player) PickUpItem(entity);
+      PickUpItem(entity);
       break;
     case TYPE_BOMB:
-      if (mob == player) PickUpItem(entity);
+      PickUpItem(entity);
       break;
     case TYPE_CHEST:
-      if (mob == player) PickUpItem(entity);
+      PickUpItem(entity);
       break;
 
     case TYPE_ENEMY:
-      // if (mob == player) fighting
+      // fighting
     default:
       break;
   }

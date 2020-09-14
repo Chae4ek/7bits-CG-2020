@@ -68,7 +68,7 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
     }
   } else if (type != TYPE_NULL) {
     Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)),
-                  Sprite(PREFABS.at(type).texture, PREFABS.at(type).color));
+                  Sprite(PREFABS.at(type).texture, PREFABS.at(type).color, PREFABS.at(type).hex_texture));
 
     // TODO: replace to vector of components
     if (type == TYPE_EXIT) {
@@ -78,7 +78,7 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
       entity.Add(LevelExit(level));
     }
     if (type == TYPE_SWORD || type == TYPE_BOMB || type == TYPE_CHEST) {  // TODO: create custom CHEST
-      const int durability = Random() % 10 + 1;
+      const int durability = Random() % 3 + 1;
       const int health_damage = Random() % 5 + 1;
       const int armor_damage = Random() % 3 + 1;
       entity.Add(Weapon(durability, health_damage, armor_damage));

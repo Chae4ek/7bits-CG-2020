@@ -14,12 +14,12 @@ void GUIScreen::Update() const {
   // interface
   terminal_color(COLOR_BLUE);
   for (int i = 0; i < terminal_state(TK_WIDTH); ++i) {
-    terminal_put(i, pos_game_y - 1, PREFABS.at(TYPE_WALL).texture);
-    terminal_put(i, pos_stats_y - 1, PREFABS.at(TYPE_WALL).texture);
+    terminal_put(i, pos_game_y - 1, PREFABS.at(TYPE_WALL).hex_texture);
+    terminal_put(i, pos_stats_y - 1, PREFABS.at(TYPE_WALL).hex_texture);
   }
   for (int i = pos_game_y; i < pos_stats_y - 1; ++i) {
-    terminal_put(pos_game_x - 1, i, PREFABS.at(TYPE_WALL).texture);
-    terminal_put(pos_inv_x - 1, i, PREFABS.at(TYPE_WALL).texture);
+    terminal_put(pos_game_x - 1, i, PREFABS.at(TYPE_WALL).hex_texture);
+    terminal_put(pos_inv_x - 1, i, PREFABS.at(TYPE_WALL).hex_texture);
   }
 
   // defense

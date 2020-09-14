@@ -19,7 +19,20 @@ void MenuControl::Update(const int key) {
       menu_prop->in_menu = !menu_prop->in_menu;
       menu_prop->cursor = 0;
     }
-    if (menu_prop->cursor == 1) menu_prop->new_graphics = !menu_prop->new_graphics;
+    if (menu_prop->cursor == 1) {
+      menu_prop->new_graphics = !menu_prop->new_graphics;
+      if (menu_prop->new_graphics)
+        SetNewGraphics();
+      else
+        SetOldGraphics();
+    }
     if (menu_prop->cursor == 2) menu_prop->exit = true;
   }
+}
+
+void MenuControl::SetNewGraphics() const {
+  terminal_set("window: cellsize=12x12");
+}
+void MenuControl::SetOldGraphics() const {
+  terminal_set("window: cellsize=auto");
 }

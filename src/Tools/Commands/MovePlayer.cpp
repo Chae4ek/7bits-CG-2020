@@ -24,6 +24,6 @@ void MovePlayer::Execute() {
 
     player_stats->step_count++;
 
-    collision.Collide(player, entity);
+    collision.CollidePlayer(entity);
   }
 }
