@@ -11,7 +11,6 @@ PlayerControl::PlayerControl(Entity *player, MapManager *map_manager)
 void PlayerControl::Update(const int key) {
   if (map_manager->level_exit) return;
 
-  // TODO: replace to alternative keys
   if (key == controls->KEY_LEFT)
     MovePlayer(map_manager, player, Position(player_pos->pos_x - 1, player_pos->pos_y)).Execute();
   if (key == controls->KEY_RIGHT)
@@ -31,16 +30,15 @@ void PlayerControl::Update(const int key) {
   if (key == controls->KEY_7 && 7 <= player_inv->max_items) player_inv->cursor = 6;
   if (key == controls->KEY_8 && 8 <= player_inv->max_items) player_inv->cursor = 7;
 
-  // TODO: make commands' pattern
   if (key == controls->KEY_ENTER && player_inv->cursor < static_cast<int>(player_inv->inventory.size())) {
-    Collision collision(map_manager, player);
-    const int try_attack = collision.TryToAttack(player_inv->inventory.at(player_inv->cursor)->Get<Weapon>());
+    const int try_attack = MoveEnemy(map_manager, player, nullptr, Position(0, 0))
+                               .TryToAttack(player_inv->inventory.at(player_inv->cursor)->Get<Weapon>());
 
     switch (try_attack) {
       case 0:
-        player_inv->inventory.at(player_inv->cursor).get()->Get<Position>()->pos_x =
+        player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_x =
             map_manager->GlobalToLocal(player_pos).pos_x;
-        player_inv->inventory.at(player_inv->cursor).get()->Get<Position>()->pos_y =
+        player_inv->inventory.at(player_inv->cursor)->Get<Position>()->pos_y =
             map_manager->GlobalToLocal(player_pos).pos_y;
 
         map_manager->entities.at(map_manager->GetLevel())

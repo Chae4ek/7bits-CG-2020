@@ -14,9 +14,12 @@ void EnemyControl::Update() {
   const Position local_player_pos = map_manager->GlobalToLocal(player_pos);
 
   auto &entities = map_manager->entities.at(map_manager->GetLevel()).at(map_manager->GetChunkCoords(player_pos));
-  for (auto &enemy : entities) {
-    Entity *mob = enemy.get();
-    if (mob->Get<Type>()->type != TYPE_ENEMY) continue;
+  std::vector<Entity *> enemies;
+  std::for_each(entities.begin(), entities.end(), [&enemies](std::unique_ptr<Entity> &e) {
+    if (e->Get<Type>()->type == TYPE_ENEMY) enemies.push_back(e.get());
+  });
+
+  for (Entity *mob : enemies) {
     Position *mob_pos = mob->Get<Position>();
 
     if (abs(mob_pos->pos_x - local_player_pos.pos_x) > abs(mob_pos->pos_y - local_player_pos.pos_y)) {

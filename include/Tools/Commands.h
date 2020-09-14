@@ -32,4 +32,11 @@ class MoveEnemy : public ICommand {
  public:
   MoveEnemy(MapManager *map_manager, Entity *player, Entity *mob, Position new_pos);
   void Execute();
+
+  // 0 - just kick, 1 - player died
+  int AttackingEnemy(const Entity *mob);
+  // 0 - drop item, 1 - attacked, 2 - attacked and broke
+  int TryToAttack(Weapon *weapon);
+
+  void PlayerDeath();
 };

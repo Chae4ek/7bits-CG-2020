@@ -20,9 +20,5 @@ class Collision {
   ENTITY_TYPE GetType(const entity_ptr entity) const;
   void CollidePlayer(entity_ptr entity);
 
-  void AttackingEnemy(const Entity *mob);
-  // 0 - drop item, 1 - attacked, 2 - attacked and broke
-  int TryToAttack(Weapon *weapon);
-
   void PickUpItem(entity_ptr entity);
 };

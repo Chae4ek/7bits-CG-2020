@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Advanced.h"
+#include "ECS/Components/Defense.h"
 #include "ECS/Components/Position.h"
 #include "ECS/Entity.h"
 
@@ -26,6 +27,7 @@ struct entity_ptr {
 
 class MapManager {
  private:
+  std::map<int, std::unique_ptr<Position>> level_first_pos;
   std::map<int, std::unique_ptr<Position>> level_last_pos;
   int level_id = -1;
 
@@ -35,7 +37,6 @@ class MapManager {
 
  public:
   // TODO: private this later
-  // TODO: search entity by coords
   std::map<int, std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>>> entities;
   bool level_exit = false;
 
@@ -44,12 +45,17 @@ class MapManager {
 
   unsigned int seed;
 
-  MapManager(const unsigned int start_seed, Position *player);
+  const int start_player_health;
+  const int start_player_armor;
+
+  MapManager(const unsigned int start_seed, Entity *player);
 
   void CreateEntity(const chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
 
+  void SaveFirstPlayerPosition();
   void SavePlayerPosition();
+  void SetLastPosAsFirstPos(const int level);
   bool LevelIsEmpty(const int level) const;
   int GetLevel() const;
 

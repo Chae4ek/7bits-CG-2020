@@ -8,7 +8,7 @@ Game::Game(const unsigned int start_seed)
                    TK_8),
           Sprite(PREFABS.at(TYPE_PLAYER).texture, PREFABS.at(TYPE_PLAYER).color, PREFABS.at(TYPE_PLAYER).hex_texture),
           GameStats(), Type(TYPE_PLAYER), Defense(10, 20), Inventory(8)),
-      map_manager(start_seed, player.Get<Position>()),
+      map_manager(start_seed, &player),
       player_control(&player, &map_manager),
       level_exit_control(&player, &map_manager),
       menu_control(&menu_prop, player.Get<Controls>()),

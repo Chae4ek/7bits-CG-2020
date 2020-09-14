@@ -65,6 +65,7 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
     if (map_manager->LevelIsEmpty(map_manager->GetLevel())) {
       player->pos_x = x;
       player->pos_y = y;
+      map_manager->SaveFirstPlayerPosition();
     }
   } else if (type != TYPE_NULL) {
     Entity entity(Type(type), map_manager->GlobalToLocal(Position(x, y)),
