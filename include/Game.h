@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ECS/Components/Defense.h"
+#include "ECS/Systems/EnemyControl.h"
 #include "ECS/Systems/LevelExitControl.h"
 #include "ECS/Systems/MenuControl.h"
 #include "ECS/Systems/PlayerControl.h"
@@ -25,6 +26,8 @@ class Game {
   GUIScreen gui_screen;
   LevelExitScreen level_exit_screen;
   MenuScreen menu_screen;
+
+  EnemyControl enemy_control;
 
  public:
   explicit Game(const unsigned int start_seed);

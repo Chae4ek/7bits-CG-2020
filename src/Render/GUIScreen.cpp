@@ -29,6 +29,7 @@ void GUIScreen::Update() const {
   Print(COLOR_YELLOW, 28, 1, "%d", player_def->armor);
 
   // player stats
+  Print(COLOR_BLUE, 1, pos_stats_y, "Statistics");
   Print(COLOR_WHITE, 1, pos_stats_y + 1, "Coins = ");
   Print(COLOR_YELLOW, 9, pos_stats_y + 1, "%d", player_stats->coins);
   Print(COLOR_WHITE, 1, pos_stats_y + 3, "Step count = ");
@@ -60,6 +61,7 @@ void GUIScreen::Update() const {
 
   // inv stats
   const int offset = 75;
+  Print(COLOR_BLUE, offset, pos_stats_y, "Selected item");
   Print(COLOR_WHITE, offset, pos_stats_y + 1, "Durability / Count = ");
   Print(COLOR_WHITE, offset, pos_stats_y + 2, "Health damage = ");
   Print(COLOR_WHITE, offset, pos_stats_y + 3, "Armor damage = ");

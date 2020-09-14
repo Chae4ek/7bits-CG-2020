@@ -3,12 +3,14 @@
 #include <vector>
 
 #include "ECS/Components/ChestType.h"
+#include "ECS/Components/Defense.h"
+#include "ECS/Components/GameStats.h"
+#include "ECS/Components/Inventory.h"
 #include "ECS/Components/LevelExit.h"
 #include "ECS/Components/Type.h"
 #include "ECS/Components/Weapon.h"
 #include "MapManager.h"
 #include "ReaderStruct.h"
-
 
 class Generate {
  private:
@@ -26,6 +28,7 @@ class Generate {
   const double chest_chance = 1;
   const double sword_chance = 0.5;
   const double bomb_chance = 0.5;
+  const double enemy_chance = 10;
   const double structures_chance = 3;
   // TODO: delete this later
   const int structures_count = 1;

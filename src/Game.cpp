@@ -14,7 +14,8 @@ Game::Game(const unsigned int start_seed)
       game_screen(&map_manager, &player),
       gui_screen(&map_manager, &player),
       level_exit_screen(player.Get<GameStats>()),
-      menu_screen(&menu_prop) {}
+      menu_screen(&menu_prop),
+      enemy_control(&player, &map_manager) {}
 
 void Game::Run() {
   // TODO: delete dynamic generation?
@@ -53,8 +54,9 @@ int Game::Input() {
   }
   return 0;
 }
-// TODO: this something
-void Game::Update() {}
+void Game::Update() {
+  enemy_control.Update();
+}
 void Game::Render() const {
   game_screen.Update();
   gui_screen.Update();

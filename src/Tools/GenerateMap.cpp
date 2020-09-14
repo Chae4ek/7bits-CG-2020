@@ -86,6 +86,11 @@ void Generate::CreateEntity(const ReaderStruct* reader, const ENTITY_TYPE type, 
       const int type = Random() % 2;
       if (type == TYPE_CHEST) entity.Add(ChestType(type ? TYPE_SWORD : TYPE_BOMB));
     }
+    if (type == TYPE_ENEMY) {
+      const int health = Random() % 5;
+      const int armor = Random() % 5;
+      entity.Add(Defense(health, armor), GameStats());
+    }
 
     map_manager->CreateEntity(chunk_coords, std::move(entity));
   }
@@ -116,11 +121,12 @@ int Generate::L1(const chunk_coords_t chunk_global_pos, const int x, const int y
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / chest_chance) == 0) return TYPE_CHEST;
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / sword_chance) == 0) return TYPE_SWORD;
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / bomb_chance) == 0) return TYPE_BOMB;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / enemy_chance) == 0) return TYPE_ENEMY;
 
   // TODO: replace to dictionary?
   if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / structures_chance) == 0)
     return -Random() % structures_count - 1;
-  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / exit_chance) == 0) return -2;
+  if (Random() % static_cast<int>(map_manager->size_x * map_manager->size_y / exit_chance) == 0) return -10477;
 
   return TYPE_NULL;
 }

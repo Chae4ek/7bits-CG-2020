@@ -6,7 +6,7 @@ ENTITY_TYPE Collision::GetType(const entity_ptr entity) const {
   if (!entity.valid) return TYPE_NULL;
   return (*entity.iter)->Get<Type>()->type;
 }
-void Collision::CollidePlayer(entity_ptr entity) {
+void Collision::Collide(Entity *mob, entity_ptr entity) {
   const int type = GetType(entity);
 
   // TODO: replace to item dictionary
@@ -14,33 +14,37 @@ void Collision::CollidePlayer(entity_ptr entity) {
     case TYPE_WALL:
       break;
     case TYPE_COIN:
-      player->Get<GameStats>()->coins++;
+      mob->Get<GameStats>()->coins++;
       map_manager->Destroy(entity);
       break;
     case TYPE_EXIT:
-      map_manager->GoToLevel((*entity.iter)->Get<LevelExit>()->level);
+      if (mob == player) map_manager->GoToLevel((*entity.iter)->Get<LevelExit>()->level);
       break;
 
     case TYPE_SWORD:
-      PickUpItem(entity);
+      if (mob == player) PickUpItem(entity);
       break;
     case TYPE_BOMB:
-      PickUpItem(entity);
+      if (mob == player) PickUpItem(entity);
       break;
     case TYPE_CHEST:
-      PickUpItem(entity);
+      if (mob == player) PickUpItem(entity);
       break;
+
+    case TYPE_ENEMY:
+      // if (mob == player) fighting
     default:
       break;
   }
 }
 
 void Collision::PickUpItem(entity_ptr entity) {
-  if (static_cast<int>(player->Get<Inventory>()->inventory.size()) < player->Get<Inventory>()->max_items) {
+  Inventory *inv = player->Get<Inventory>();
+  if (static_cast<int>(inv->inventory.size()) < inv->max_items) {
     auto &entities =
         map_manager->entities.at(map_manager->GetLevel()).at(map_manager->GetChunkCoords(player->Get<Position>()));
 
-    player->Get<Inventory>()->inventory.emplace_back(std::move(entities.at(entity.iter - entities.begin())));
+    inv->inventory.emplace_back(std::move(entities.at(entity.iter - entities.begin())));
     entities.erase(entity.iter);
   }
 }

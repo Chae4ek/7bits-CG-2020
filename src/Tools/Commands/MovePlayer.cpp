@@ -5,8 +5,7 @@ MovePlayer::MovePlayer(MapManager *map_manager, Entity *player, Position new_pos
       player(player),
       new_pos(new_pos.pos_x, new_pos.pos_y),
       player_pos(player->Get<Position>()),
-      player_stats(player->Get<GameStats>()),
-      player_inv(player->Get<Inventory>()) {}
+      player_stats(player->Get<GameStats>()) {}
 
 void MovePlayer::Execute() {
   const chunk_coords_t chunk_coords = map_manager->GetChunkCoords(&new_pos);
@@ -25,6 +24,6 @@ void MovePlayer::Execute() {
 
     player_stats->step_count++;
 
-    collision.CollidePlayer(entity);
+    collision.Collide(player, entity);
   }
 }
