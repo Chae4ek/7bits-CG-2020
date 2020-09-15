@@ -40,4 +40,5 @@ class GUIScreen : protected IScreen {
   void RenderInventory() const;
   void RenderItemStats() const;
   void RenderFightingInfo() const;
+  void RenderRecords() const;
 };

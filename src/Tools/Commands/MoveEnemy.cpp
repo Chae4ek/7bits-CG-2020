@@ -74,8 +74,18 @@ void MoveEnemy::PlayerDeath() {
   player->Get<Defense>()->health = map_manager->start_player_health;
   player->Get<Defense>()->armor = map_manager->start_player_armor;
 
-  player->Get<GameStats>()->coins = 0;
-  player->Get<GameStats>()->step_count = 0;
+  GameStats *stats = player->Get<GameStats>();
+  const int new_rec = stats->coins;
+  auto rec = std::find_if(stats->records.begin(), stats->records.end(), [&new_rec](int &r) { return r <= new_rec; });
+
+  if (!stats->records.size() ||
+      (rec != stats->records.end() && stats->records.at(rec - stats->records.begin()) != new_rec))
+    stats->records.insert(rec, new_rec);
+
+  if (static_cast<int>(stats->records.size()) > stats->max_records) stats->records.pop_back();
+
+  stats->coins = 0;
+  stats->step_count = 0;
 
   Inventory *player_inv = player->Get<Inventory>();
   player_inv->cursor = 0;

@@ -22,6 +22,7 @@ void GUIScreen::Update() const {
   RenderInventory();
   RenderItemStats();
   RenderFightingInfo();
+  RenderRecords();
 
   terminal_refresh();
 }
@@ -106,5 +107,16 @@ void GUIScreen::RenderFightingInfo() const {
   } else {
     Print(COLOR_YELLOW, offset + 14, pos_stats_y + 2, "--");
     Print(COLOR_YELLOW, offset + 14, pos_stats_y + 3, "--");
+  }
+}
+void GUIScreen::RenderRecords() const {
+  Print(COLOR_BLUE, 1, pos_game_y + 1, "%s", localization->local.at("records").c_str());
+  const int records_count = player_stats->records.size();
+  for (int i = 0; i < player_stats->max_records; ++i) {
+    Print(COLOR_WHITE, 1, pos_game_y + 3 + i * 2, "%d.", i + 1);
+    if (i < records_count)
+      Print(COLOR_YELLOW, 4, pos_game_y + 3 + i * 2, "%d", player_stats->records.at(i));
+    else
+      Print(COLOR_GREY, 4, pos_game_y + 3 + i * 2, "...");
   }
 }

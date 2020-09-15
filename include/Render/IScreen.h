@@ -4,7 +4,7 @@
 
 class IScreen {
  protected:
-  const int pos_game_x = 10;
+  const int pos_game_x = 11;
   const int pos_game_y = 4;
 
   inline void Print(int x, int y, const Sprite *sprite, const bool new_graphics) const {

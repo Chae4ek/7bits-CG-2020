@@ -23,6 +23,8 @@ enemy_info = Инфа о враге
 health = Здоровье
 armor = Защита
 
+records = Рекорды
+
 [LevelExit]
 
 press_for_continue = Нажмите [[ENTER]] для продолжения

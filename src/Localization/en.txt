@@ -23,6 +23,8 @@ enemy_info = Enemy info
 health = Health
 armor = Armor
 
+records = Records
+
 [LevelExit]
 
 press_for_continue = Press [[ENTER]] for continue
