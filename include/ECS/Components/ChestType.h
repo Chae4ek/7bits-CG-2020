@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Advanced.h"
+#include "Constants.h"
 #include "ECS/IComponent.h"
 
 class ChestType : public IComponent {
