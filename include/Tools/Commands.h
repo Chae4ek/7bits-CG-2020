@@ -33,7 +33,7 @@ class MoveEnemy : public ICommand {
   MoveEnemy(MapManager *map_manager, Entity *player, Entity *mob, Position new_pos);
   void Execute();
 
-  // 0 - just kick, 1 - player died
+  // 0 - just kick / nothing, 1 - player died
   int AttackingEnemy(const Entity *mob);
   void TryToAttack(Weapon *weapon);
 

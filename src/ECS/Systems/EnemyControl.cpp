@@ -27,11 +27,15 @@ void EnemyControl::Update() {
         MoveEnemy(map_manager, player, mob, Position(mob_pos->pos_x - 1, mob_pos->pos_y)).Execute();
       else if (local_player_pos.pos_x > mob_pos->pos_x && mob_pos->pos_x < map_manager->size_x - 1)
         MoveEnemy(map_manager, player, mob, Position(mob_pos->pos_x + 1, mob_pos->pos_y)).Execute();
+      else
+        MoveEnemy(map_manager, player, nullptr, Position(0, 0)).AttackingEnemy(mob);
     } else {
       if (local_player_pos.pos_y < mob_pos->pos_y && mob_pos->pos_y > 0)
         MoveEnemy(map_manager, player, mob, Position(mob_pos->pos_x, mob_pos->pos_y - 1)).Execute();
       else if (local_player_pos.pos_y > mob_pos->pos_y && mob_pos->pos_y < map_manager->size_y - 1)
         MoveEnemy(map_manager, player, mob, Position(mob_pos->pos_x, mob_pos->pos_y + 1)).Execute();
+      else
+        MoveEnemy(map_manager, player, nullptr, Position(0, 0)).AttackingEnemy(mob);
     }
   }
 }

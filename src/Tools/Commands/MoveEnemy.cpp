@@ -20,12 +20,15 @@ void MoveEnemy::Execute() {
 
     mob_stats->step_count++;
 
-    Position local_player_pos = map_manager->GlobalToLocal(player_pos);
-    if (local_player_pos.pos_x == mob_pos->pos_x && local_player_pos.pos_y == mob_pos->pos_y) AttackingEnemy(mob);
+    AttackingEnemy(mob);
   }
 }
 
 int MoveEnemy::AttackingEnemy(const Entity *mob) {
+  Position local_player_pos = map_manager->GlobalToLocal(player_pos);
+  if (local_player_pos.pos_x != mob->Get<Position>()->pos_x || local_player_pos.pos_y != mob->Get<Position>()->pos_y)
+    return 0;
+
   Defense *player_def = player->Get<Defense>();
   const Defense *mob_def = mob->Get<Defense>();
 
