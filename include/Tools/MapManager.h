@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "Advanced.h"
+#include "Constants.h"
 #include "ECS/Components/Defense.h"
 #include "ECS/Components/Position.h"
 #include "ECS/Entity.h"
