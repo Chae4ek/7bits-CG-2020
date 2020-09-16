@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Components/Controls.h"
 #include "Tools/Commands.h"
 
 class PlayerControl {
@@ -7,15 +8,13 @@ class PlayerControl {
   Entity *player;
   MapManager *map_manager;
 
-  Position *position;
-  Controls *controls;
-  GameStats *game_stats;
+  Position *player_pos;
+  const Controls *controls;
+  GameStats *player_stats;
+  Inventory *player_inv;
 
  public:
-  explicit PlayerControl(Entity *player, MapManager *map_manager);
+  PlayerControl(Entity *player, MapManager *map_manager);
 
   void Update(const int key);
-
-  constexpr int GetPosX();
-  constexpr int GetPosY();
 };

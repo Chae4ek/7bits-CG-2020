@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ECS/Components/MenuProperties.h"
 #include "IScreen.h"
 
 class GameScreen : protected IScreen {
@@ -9,8 +10,10 @@ class GameScreen : protected IScreen {
   const Position *player_pos;
   const Sprite *player_sprite;
 
+  const MenuProperties *menu_prop;
+
  public:
-  GameScreen(const MapManager *map_manager, const Entity *player);
+  GameScreen(const MapManager *map_manager, const Entity *player, const MenuProperties *menu_prop);
 
   void Update() const;
 };

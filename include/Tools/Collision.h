@@ -1,6 +1,13 @@
 #pragma once
 
-#include "MapManager.h"
+#include "ECS/Components/ChestType.h"
+#include "ECS/Components/Defense.h"
+#include "ECS/Components/GameStats.h"
+#include "ECS/Components/Inventory.h"
+#include "ECS/Components/LevelExit.h"
+#include "ECS/Components/Type.h"
+#include "ECS/Components/Weapon.h"
+#include "Tools/MapManager.h"
 
 class Collision {
  private:
@@ -10,6 +17,8 @@ class Collision {
  public:
   Collision(MapManager *map_manager, Entity *player);
 
-  bool ForMovePlayer(entity_ptr entity) const;
+  ENTITY_TYPE GetType(const entity_ptr entity) const;
   void CollidePlayer(entity_ptr entity);
+
+  void PickUpItem(entity_ptr entity);
 };

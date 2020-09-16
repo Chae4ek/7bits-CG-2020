@@ -1,7 +1,5 @@
 #pragma once
 
-#include <BearLibTerminal.h>
-
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -9,7 +7,8 @@
 #include <vector>
 
 #include "Advanced.h"
-#include "ECS/Components.h"
+#include "ECS/Components/Defense.h"
+#include "ECS/Components/Position.h"
 #include "ECS/Entity.h"
 
 typedef std::pair<int, int> chunk_coords_t;
@@ -22,29 +21,43 @@ struct entity_ptr {
   const bool valid;
 
   entity_ptr() : valid(false) {}
-  entity_ptr(chunk_coords_t chunk_coords, entity_t entity, bool valid)
+  entity_ptr(const chunk_coords_t chunk_coords, const entity_t entity, const bool valid)
       : chunk_coords(chunk_coords), iter(entity), valid(valid) {}
 };
 
 class MapManager {
- public:
-  std::map<int, std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>>> entities;
+ private:
+  std::map<int, std::unique_ptr<Position>> level_first_pos;
   std::map<int, std::unique_ptr<Position>> level_last_pos;
-  bool level_exit = false;
   int level_id = -1;
 
-  const int size_x = terminal_state(TK_WIDTH);
-  const int size_y = terminal_state(TK_HEIGHT) - 6;  // TODO: this looks like GUIScreen system parameters
-
   const unsigned int start_seed;
-  unsigned int seed;
 
   Position *player;
 
-  MapManager(const unsigned int seed, Position *player);
+ public:
+  // TODO: private this later
+  std::map<int, std::map<chunk_coords_t, std::vector<std::unique_ptr<Entity>>>> entities;
+  bool level_exit = false;
 
-  void CreateEntity(chunk_coords_t chunk_coords, Entity &&entity);
+  const int size_x = 80;
+  const int size_y = 24;
+
+  unsigned int seed;
+
+  const int start_player_health;
+  const int start_player_armor;
+
+  MapManager(const unsigned int start_seed, Entity *player);
+
+  void CreateEntity(const chunk_coords_t chunk_coords, Entity &&entity);
   void Destroy(entity_ptr entity);
+
+  void SaveFirstPlayerPosition();
+  void SavePlayerPosition();
+  void SetLastPosAsFirstPos(const int level);
+  bool LevelIsEmpty(const int level) const;
+  int GetLevel() const;
 
   bool ChunkIsEmpty(const chunk_coords_t chunk_coords) const;
   chunk_coords_t GetChunkCoords(const Position *global_pos) const;

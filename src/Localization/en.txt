@@ -1,0 +1,40 @@
+language = English
+
+[GUI]
+
+health = Health
+armor = Armor
+
+statistics = Statistics
+coins = Coins
+step_count = Step count
+
+inventory = Inventory
+sword = Sword
+bomb = Bomb
+chest = Chest
+
+selected_item = Selected item
+durability_count = Durability / Count
+health_damage = Health damage
+armor_damage = Armor damage
+
+enemy_info = Enemy info
+health = Health
+armor = Armor
+
+records = Records
+
+[LevelExit]
+
+press_for_continue = Press [[ENTER]] for continue
+
+[Menu]
+
+menu = Menu
+play = Play
+new_graphics = New graphics
+on = On
+off = Off
+localization = Localization
+exit = Exit
